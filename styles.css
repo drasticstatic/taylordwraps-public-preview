@@ -408,3 +408,32 @@ nav a.here{color:var(--a2)}
 nav a.doodle.here::after{transform:scaleX(1)}
 /* ---------- v1.6: 404 ---------- */
 .lost-hero{font-family:var(--disp);font-size:clamp(4rem,16vw,11rem);line-height:.9;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- v1.7: upload how-to modal (the mom method) ---------- */
+.how-chip{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;background:none;border:1px solid var(--line);color:var(--dim);border-radius:99px;padding:.55rem .9rem;cursor:pointer}
+.how-chip:hover{color:var(--a3);border-color:var(--a3)}
+.how-overlay{position:fixed;inset:0;z-index:900;background:rgba(5,5,9,.82);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+.how-overlay.open{display:flex}
+.how-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;max-width:680px;width:100%;max-height:88vh;overflow:auto;padding:26px}
+.how-card h3{font-family:var(--disp);font-size:1.5rem;margin:0 0 4px;letter-spacing:.02em}
+.how-card .how-sub{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;color:var(--a3);margin-bottom:18px}
+.how-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.how-pair figure{margin:0}
+.how-pair img{width:100%;border-radius:10px;display:block;border:1px solid var(--line)}
+.how-pair figcaption{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--dim);margin-top:6px;text-align:center}
+.how-steps{font-size:.86rem;line-height:1.75;color:var(--txt2,var(--txt))}
+.how-steps b{color:var(--a3)}
+.how-prompt{background:#0a0a0e;border:1px dashed rgba(45,212,191,.4);border-radius:10px;padding:14px;font-family:var(--mono);font-size:.72rem;line-height:1.7;color:var(--a3);margin:14px 0}
+.how-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.how-close{position:sticky;top:0;float:right;font-size:1.2rem;background:none;border:0;color:var(--dim);cursor:pointer}
+@media (max-width:560px){.how-pair{grid-template-columns:1fr}}
+/* ---------- v1.7: design-lab hero reticle ---------- */
+.lab-reticle{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:0;transition:opacity .3s}
+#hero:hover .lab-reticle{opacity:1}
+.lab-reticle::before,.lab-reticle::after{content:"";position:absolute;background:rgba(45,212,191,.35)}
+.lab-reticle .ret-x{position:absolute;top:0;bottom:0;width:1px;background:rgba(45,212,191,.28)}
+.lab-reticle .ret-y{position:absolute;left:0;right:0;height:1px;background:rgba(45,212,191,.28)}
+.lab-reticle .ret-dot{position:absolute;width:34px;height:34px;border:1px solid rgba(45,212,191,.5);border-radius:50%;transform:translate(-50%,-50%)}
+.lab-reticle .ret-dot::after{content:"";position:absolute;inset:13px;background:var(--a3);border-radius:50%}
+.lab-reticle .ret-tag{position:absolute;font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;color:var(--a3);transform:translate(18px,-50%);white-space:nowrap;background:rgba(10,10,14,.7);padding:2px 7px;border-radius:4px}
+.hero-visual{transform-style:preserve-3d;transition:transform .18s ease-out;will-change:transform}

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAYLOR'D WRAPS — Design. Print. Install. Brand.</title>
 <meta name="description" content="Custom is good. Taylor'd is better. Full custom advertisement wraps, color changes, fleet graphics, marine graphics and brand identity — Warminster, PA.">
-<link rel="stylesheet" href="styles.css?v=161">
+<link rel="stylesheet" href="styles.css?v=170">
 </head>
 <script>try{if(localStorage.tw_theme==="light")document.body.classList.add("light")}catch(e){}</script>
 <div id="loader"><div class="lgo">TAYLOR<span class="gradtxt">'D</span></div><div class="bar"><i id="lbar"></i></div><div class="pct" id="lpct">WARMING THE LAMINATOR — 0%</div></div>
@@ -62,7 +62,7 @@
   </div>
 </header>
 
-<div class="ticker"><div class="track" id="tickTrack"></div><div class="t-meta">© 2026 TAYLOR'D WRAPS · DESIGN · PRINT · INSTALL · BRAND · HANDCRAFTED IN DRASTICSTATIC LABS · v1.6 SHOWCASE · ↑↓↑↓←→←→BA</div></div>
+<div class="ticker"><div class="track" id="tickTrack"></div><div class="t-meta">© 2026 TAYLOR'D WRAPS · DESIGN · PRINT · INSTALL · BRAND · HANDCRAFTED IN DRASTICSTATIC LABS · v1.7 SHOWCASE · ↑↓↑↓←→←→BA</div></div>
 
 <section class="section" id="manifesto">
   <div class="mani">
@@ -170,8 +170,8 @@
     <div class="ctrls">
       <div class="ctrl">
         <div class="lab"><span>STEP 1 — BODY</span><b id="bodyName">WORK VAN</b></div>
-        <div class="seg" id="bodySeg"><button class="on" data-body="van">WORK VAN</button><button data-body="car">SPORT COUPE</button><button data-body="mower">MOWER</button><button data-body="toolbox">TOOLBOX</button><button data-body="rc">RC TRUCK</button><button data-body="rcReal">RC ORIGINAL</button><button data-body="boards">BOARDS</button><button data-body="rv">RV</button><button data-body="bus">BUS</button><button data-body="drums">DRUMS</button><button data-body="atv">ATV</button><button data-body="jetski">JET SKI</button><button data-body="snow">SNOWMOBILE</button><button data-body="custom">YOUR RIDE ↗</button></div>
-      <div class="presets" id="presets"><button class="pre" id="uploadBtn">UPLOAD A PHOTO</button><span class="mono">WRAP ANYTHING · MOWERS · TOOLBOXES · RC · BOATS · COOLERS · CNC · YOU NAME IT</span></div>
+        <div class="seg" id="bodySeg"><button class="on" data-body="van">WORK VAN</button><button data-body="car">SPORT COUPE</button><button data-body="mower">MOWER</button><button data-body="toolbox">TOOLBOX</button><button data-body="rc">RC TRUCK</button><button data-body="rcReal">RC ORIGINAL</button><button data-body="rcOld">RC CLASSIC</button><button data-body="boards">BOARDS</button><button data-body="rv">RV</button><button data-body="bus">BUS</button><button data-body="drums">DRUMS</button><button data-body="atv">ATV</button><button data-body="jetski">JET SKI</button><button data-body="snow">SNOWMOBILE</button><button data-body="custom">YOUR RIDE ↗</button></div>
+      <div class="presets" id="presets"><button class="pre" id="uploadBtn">UPLOAD A PHOTO</button> <button class="how-chip" id="howBtn" type="button">ⓘ PREP YOUR PHOTO</button><span class="mono">WRAP ANYTHING · MOWERS · TOOLBOXES · RC · BOATS · COOLERS · CNC · YOU NAME IT</span></div>
       <input type="file" id="wrapFile" accept="image/*" style="display:none">
       </div>
       <div class="ctrl">
@@ -391,5 +391,26 @@
   <button class="tb-btn" id="tbUndo" aria-label="Undo last stroke"><i>↶</i>UNDO</button>
   <button class="tb-btn" id="tbClear" aria-label="Clear all paint"><i>✕</i>CLEAR</button>
 </div>
-
-<script src="app.js?v=161" defer></script>
+<div class="how-overlay" id="howOverlay" role="dialog" aria-modal="true" aria-label="How to prep a photo for upload">
+  <div class="how-card">
+    <button class="how-close" data-close aria-label="Close">×</button>
+    <h3>THE MOM METHOD</h3>
+    <p class="how-sub">HOW TO GET A WRAP-READY PHOTO — THE WAY MOM'S TRUCK DID IT</p>
+    <div class="how-pair">
+      <figure><img src="assets/rc.jpg" alt="Mom's RC truck, custom build"><figcaption>MOM'S BUILD — THE REAL THING</figcaption></figure>
+      <figure><img src="assets/rc-white.jpg" alt="Prepped white shell version"><figcaption>PREPPED SHELL — WHAT UPLOADS LOVE</figcaption></figure>
+    </div>
+    <div class="how-steps">
+      <p><b>1.</b> Pick a photo of your ride. Any ride — that's the point.</p>
+      <p><b>2.</b> Feed the prompt below to your own AI tool, whichever you trust. It repaints just the body white and touches nothing else — same trick we ran on Mom's truck.</p>
+      <p><b>3.</b> Upload the white-shell result here. The film lands on the paint, not the backdrop.</p>
+    </div>
+    <div class="how-prompt" id="howPromptText">Recolor the main vehicle or object in this photo to a plain, uniform glossy WHITE with no decals, no logos, no lettering. Keep everything else exactly as it is — background, lighting, shadows, wheels, glass, suspension, details. Photorealistic, seamless edit.</div>
+    <div class="how-actions">
+      <button class="btn solid" id="howCopy" type="button">COPY THE PROMPT</button>
+      <button class="btn" id="howUpload" type="button">UPLOAD MY PHOTO →</button>
+    </div>
+    <p class="w-honest" style="margin-top:14px">WHY WHITE? THE WRAP ENGINE READS PAINT BY COLOR — WHITE AND NEUTRAL SHELLS GIVE IT CLEAN EDGES, SO YOUR FILM LOOKS LAID, NOT SPLASHED.</p>
+  </div>
+</div>
+<script src="app.js?v=170" defer></script>

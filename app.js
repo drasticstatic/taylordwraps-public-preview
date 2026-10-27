@@ -208,9 +208,9 @@ window.__startPeel = peel.startPeelDemo;
     satin: {n:'SATIN', f:'saturate(.92) contrast(1.02) brightness(.97)'},
     matte: {n:'MATTE', f:'saturate(.78) contrast(.98) brightness(.9)'},
   };
-  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc-white.jpg', rcReal:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', boards:'assets/boards.jpg', rv:'assets/rv.jpg', bus:'assets/bus.jpg', drums:'assets/drums.jpg', custom:null };
-  const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK \u00b7 FRESH SHELL', rcReal:'RC TRUCK \u00b7 MOM\u2019S BUILD', atv:'ATV QUAD', jetski:'JET SKI', snow:'SNOWMOBILE', boards:'SKATE + SNOW DECKS', rv:'VINTAGE RV', bus:'WHITE SCHOOL BUS', drums:'DRUM KIT', custom:'YOUR RIDE' };
-  const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', rcReal:'-8deg', atv:'-10deg', jetski:'-6deg', snow:'-8deg', boards:'-4deg', rv:'-10deg', bus:'-4deg', drums:'-6deg', custom:'-8deg' };
+  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc-white.jpg', rcReal:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', boards:'assets/boards.jpg', rv:'assets/rv.jpg', bus:'assets/bus.jpg', drums:'assets/drums.jpg', rcOld:'assets/rc-old.jpg', custom:null };
+  const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK \u00b7 FRESH SHELL', rcReal:'RC TRUCK \u00b7 MOM\u2019S BUILD', atv:'ATV QUAD', jetski:'JET SKI', snow:'SNOWMOBILE', boards:'SKATE + SNOW DECKS', rv:'VINTAGE RV', bus:'WHITE SCHOOL BUS', drums:'DRUM KIT', rcOld:'RC CRAWLER \u00b7 CLASSIC', custom:'YOUR RIDE' };
+  const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', rcReal:'-8deg', atv:'-10deg', jetski:'-6deg', snow:'-8deg', boards:'-4deg', rv:'-10deg', bus:'-4deg', drums:'-6deg', rcOld:'-8deg', custom:'-8deg' };
   let film = FILMS[0], fin = 'gloss', body = 'van';
   const img = $('#vizImg');
 
@@ -780,6 +780,7 @@ const $v = s => document.querySelector(s);
   stage.appendChild(chip);
   const smooth = (x,a,b) => { const t = Math.min(1, Math.max(0, (x-a)/(b-a))); return t*t*(3-2*t); };
   let raf = 0;
+  const LIGHT = { x: null, y: null };
   function render(){
     const st = window.__vizState && window.__vizState();
     if(!st) return;
@@ -831,10 +832,12 @@ const $v = s => document.querySelector(s);
     const fl = document.createElement('canvas'); fl.width = cw; fl.height = ch;
     const fx = fl.getContext('2d');
     const hue = st.film.h, sat = Math.max(45, Math.min(92, st.film.s));
+    const pearl = ((st.film.n || '') + '').toUpperCase().indexOf('PSYCLONE') > -1;
+    const sp1 = pearl ? 90 : 34, sp2 = pearl ? 210 : 326;
     const grad = fx.createLinearGradient(0, 0, cw, ch);
     grad.addColorStop(0, 'hsl(' + hue + ' ' + sat + '% 58%)');
-    grad.addColorStop(.45, 'hsl(' + ((hue+34)%360) + ' ' + sat + '% 44%)');
-    grad.addColorStop(1, 'hsl(' + ((hue+326)%360) + ' ' + sat + '% 52%)');
+    grad.addColorStop(.45, 'hsl(' + ((hue+sp1)%360) + ' ' + sat + '% ' + (pearl ? 40 : 44) + '%)');
+    grad.addColorStop(1, 'hsl(' + ((hue+sp2)%360) + ' ' + sat + '% 52%)');
     fx.fillStyle = grad; fx.fillRect(0, 0, cw, ch);
     // carbon-weave texture so it reads as material, not a color fill
     fx.globalAlpha = .10; fx.strokeStyle = '#000'; fx.lineWidth = Math.max(1, cw/500);
@@ -857,9 +860,21 @@ const $v = s => document.querySelector(s);
     cx.globalAlpha = .30;
     cx.drawImage(fl, 0, 0);
     cx.restore();
+    if(pearl && LIGHT.x != null){
+      const lx = LIGHT.x * cw, ly = LIGHT.y * ch;
+      cx.save();
+      cx.globalCompositeOperation = 'screen';
+      const sh = cx.createRadialGradient(lx, ly, 0, lx, ly, cw * .45);
+      sh.addColorStop(0, 'rgba(255,255,255,.5)');
+      sh.addColorStop(.35, 'rgba(255,255,255,.12)');
+      sh.addColorStop(1, 'rgba(255,255,255,0)');
+      cx.fillStyle = sh; cx.fillRect(0, 0, cw, ch);
+      cx.restore();
+    }
     chip.textContent = st.body === 'custom'
       ? 'UPLOAD MODE \u2014 hue-wash only; white or neutral paint wraps cleanest. True cut-lines need the shop\u2019s eye.'
-      : 'STUDIO PRESET \u2014 the film reads the body, not the backdrop.';
+      : (pearl ? 'PEARLESCENT MODE \u2014 move your light (mouse): the film flips like it would in the sun.'
+               : 'STUDIO PRESET \u2014 the film reads the body, not the backdrop.');
   }
   const schedule = () => { if(raf) return; raf = requestAnimationFrame(() => { raf = 0; render(); }); };
   img.addEventListener('load', schedule);
@@ -868,6 +883,13 @@ const $v = s => document.querySelector(s);
     new IntersectionObserver(es => { if(es.some(e => e.isIntersecting)) schedule(); }, { rootMargin: '300px' }).observe(stage);
   }
   addEventListener('resize', schedule);
+  stage.addEventListener('pointermove', e => {
+    const r = stage.getBoundingClientRect();
+    if(r.width < 2) return;
+    LIGHT.x = (e.clientX - r.left) / r.width;
+    LIGHT.y = (e.clientY - r.top) / r.height;
+    schedule();
+  }, { passive: true });
   if(img.complete && img.naturalWidth) schedule();
 })();
 
@@ -901,5 +923,69 @@ const $v = s => document.querySelector(s);
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
   map.forEach((a, id) => { const s = document.getElementById(id); if(s) obs.observe(s); });
+})();
+
+
+/* ---------- v1.7: the mom method — upload prep modal ---------- */
+(() => {
+  const btn = document.getElementById('howBtn'), ov = document.getElementById('howOverlay');
+  if(!btn || !ov) return;
+  const open = () => ov.classList.add('open');
+  const close = () => ov.classList.remove('open');
+  btn.addEventListener('click', open);
+  ov.addEventListener('click', e => { if(e.target === ov) close(); });
+  ov.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', close));
+  addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+  const copyBtn = document.getElementById('howCopy');
+  if(copyBtn){
+    copyBtn.addEventListener('click', async () => {
+      const txt = document.getElementById('howPromptText').textContent.trim();
+      try { await navigator.clipboard.writeText(txt); } catch(e){
+        const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove();
+      }
+      copyBtn.textContent = 'COPIED \u2713';
+      setTimeout(() => copyBtn.textContent = 'COPY THE PROMPT', 1800);
+    });
+  }
+  const upBtn = document.getElementById('howUpload');
+  if(upBtn){
+    upBtn.addEventListener('click', () => {
+      close();
+      const f = document.getElementById('wrapFile');
+      if(f) f.click();
+    });
+  }
+})();
+
+/* ---------- v1.7: design-lab hero — CAD reticle + tilt ---------- */
+(() => {
+  const hero = document.getElementById('hero');
+  if(!hero || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ret = document.createElement('div');
+  ret.className = 'lab-reticle';
+  ret.innerHTML = '<div class="ret-x"></div><div class="ret-y"></div><div class="ret-dot"></div><div class="ret-tag"></div>';
+  hero.style.position = 'relative';
+  hero.appendChild(ret);
+  const rx = ret.querySelector('.ret-x'), ry = ret.querySelector('.ret-y'),
+        rd = ret.querySelector('.ret-dot'), rt = ret.querySelector('.ret-tag');
+  const TAGS = ['X: 0.42 \u00b7 Y: 0.63 \u00b7 FILM: LOADED', 'PANEL: H2 \u00b7 EDGE: WRAPPED', 'HEAT: 104\u00b0F \u00b7 SQUEEGEE: READY', 'PSYCLONE \u25d0 \u00b7 PEARL SHIFT: ON', 'CUT PATH: CLEAN \u00b7 ZERO BUBBLES'];
+  let tagI = 0;
+  const hv = hero.querySelector('.peelbox, .stage, img');
+  hero.addEventListener('pointermove', e => {
+    const r = hero.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    const nx = x / r.width, ny = y / r.height;
+    rx.style.left = (nx*100) + '%';
+    ry.style.top = (ny*100) + '%';
+    rd.style.left = x + 'px'; rd.style.top = y + 'px';
+    rt.style.left = x + 'px'; rt.style.top = y + 'px';
+    if(Math.random() < .04){ tagI = (tagI + 1) % TAGS.length; }
+    rt.textContent = 'X: ' + nx.toFixed(2) + ' \u00b7 Y: ' + ny.toFixed(2) + ' \u00b7 ' + TAGS[tagI];
+    if(hv && matchMedia('(pointer:fine)').matches){
+      hv.style.transform = 'perspective(1100px) rotateY(' + ((nx - .5) * 5).toFixed(2) + 'deg) rotateX(' + ((.5 - ny) * 4).toFixed(2) + 'deg)';
+    }
+  });
+  hero.addEventListener('pointerleave', () => { if(hv) hv.style.transform = ''; });
 })();
 
