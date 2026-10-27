@@ -10,13 +10,32 @@
 <div id="loader"><div class="lgo">TAYLOR<span class="gradtxt">'D</span></div><div class="bar"><i id="lbar"></i></div><div class="pct" id="lpct">WARMING THE LAMINATOR — 0%</div></div>
 
 <nav>
-  <a class="logo" href="#hero"><b>TAYLOR<span class="gradtxt">'D</span></b> <span class="labs">× DRL</span></a>
+  <a class="logo" href="#hero" title="Taylor'd Wraps x drasticstatic labs"><b>TAYLOR<span class="gradtxt">'D</span></b> <span class="labs">× DRL</span></a>
   <div class="links">
-    <a href="#receipts">The Receipts</a><a href="#visualizer">Visualizer</a><a href="#quote">Start Yours</a><a href="#shop">From The Shop</a><a href="#lab">Lab</a>
+    <a href="#receipts">The Receipts</a><a href="#visualizer">Visualizer</a><a href="#arrival">Arrival Kit</a><a href="#quote">Start Yours</a><a href="#shop">The Shop</a>
   </div>
-  <button class="btn psy-btn" id="psyBtn" aria-pressed="false" title="PSYCLONE MODE — the Konami code works too: ↑↑↓↓←→←→BA">◐ PSYCLONE</button>
-  <button class="btn" id="walletBtn">◈ Connect</button>
+  <button class="btn gear-btn" id="gearBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="settingsDrawer" title="Settings — theme, PSYCLONE, film trail, wallet">⚙ SETTINGS</button>
 </nav>
+<div class="drawer-overlay" id="drawerOverlay" hidden></div>
+<aside class="drawer" id="settingsDrawer" role="dialog" aria-modal="true" aria-label="Site settings" hidden>
+  <div class="dr-head"><span>SETTINGS</span><button class="dr-x" id="drawerClose" aria-label="Close settings">✕</button></div>
+  <div class="dr-row"><span>THEME</span>
+    <div class="seg" role="group" aria-label="Color theme">
+      <button class="seg-b" id="thmDark" aria-pressed="true">◐ DARK</button><button class="seg-b" id="thmLight" aria-pressed="false">◑ LIGHT</button>
+    </div>
+  </div>
+  <div class="dr-row"><span>PSYCLONE MODE<small>hue-cycle the whole page</small></span>
+    <button class="btn psy-btn" id="psyBtn" aria-pressed="false" title="PSYCLONE MODE — the Konami code works too: ↑↑↓↓←→←→BA">◐ PSYCLONE</button>
+  </div>
+  <div class="dr-row"><span>FILM TRAIL<small>cursor lays vinyl — swipe fast to squeegee</small></span>
+    <button class="seg-b" id="trailBtn" aria-pressed="true">ON</button>
+  </div>
+  <div class="dr-row"><span>WALLET</span>
+    <button class="btn" id="walletBtn">◈ Connect</button>
+  </div>
+  <p class="dr-note">POWER USERS: ↑↑↓↓←→←→BA STILL WORKS</p>
+</aside>
+
 
 <header id="hero">
   <div class="bgfx"></div>
@@ -291,6 +310,41 @@
   </div>
 </section>
 
+<section id="arrival">
+  <div class="wrap">
+    <div class="a-head">
+      <h2>THE ARRIVAL <span class="gradtxt">KIT</span></h2>
+      <div class="seg" role="group" aria-label="Language / Idioma">
+        <button class="seg-b on" id="langEN" aria-pressed="true">EN</button><button class="seg-b" id="langES" aria-pressed="false">ES</button>
+      </div>
+    </div>
+    <p class="a-sub" data-lang="en">Everything you need before the film ever touches your ride. Four steps, zero surprises.</p>
+    <p class="a-sub" data-lang="es" hidden>Todo lo que necesitas antes de que el vinilo toque tu carro. Cuatro pasos, cero sorpresas.</p>
+    <div class="a-grid">
+      <div class="a-card"><span class="num">01</span>
+        <h3><span data-lang="en">BEFORE YOU ARRIVE</span><span data-lang="es" hidden>ANTES DE LLEGAR</span></h3>
+        <p data-lang="en">Wash your ride the day before — no wax, no dressings on the trim. Bring your title or registration, and your art: vector files (SVG, AI, PDF) are gold; a clean, hi-res photo works too.</p>
+        <p data-lang="es" hidden>Lava tu carro un día antes — sin cera ni productos en los plásticos. Trae el título o registro y tu arte: archivos vectoriales (SVG, AI, PDF) son oro; una foto nítida en alta resolución también sirve.</p>
+      </div>
+      <div class="a-card"><span class="num">02</span>
+        <h3><span data-lang="en">THE FLOW</span><span data-lang="es" hidden>EL PROCESO</span></h3>
+        <p data-lang="en">Quote first (free), then a design proof you approve before anything prints. Nothing touches your paint until you say yes.</p>
+        <p data-lang="es" hidden>Primero el presupuesto (gratis), luego una prueba de diseño que apruebas antes de imprimir nada. Nada toca tu pintura hasta que tú digas que sí.</p>
+      </div>
+      <div class="a-card"><span class="num">03</span>
+        <h3><span data-lang="en">INSTALL DAY</span><span data-lang="es" hidden>DÍA DE INSTALACIÓN</span></h3>
+        <p data-lang="en">Drop off, kick back, pick up wrapped. Fresh film needs 48–72 hours to cure — no washing, no brushing up against it. Then it's you and the road.</p>
+        <p data-lang="es" hidden>Dejas el carro, te relajas, lo recoges envuelto. El vinilo nuevo necesita 48–72 horas para curar — sin lavarlo ni rozarlo. Después, tú y el camino.</p>
+      </div>
+      <div class="a-card"><span class="num">04</span>
+        <h3><span data-lang="en">FIND US</span><span data-lang="es" hidden>DÓNDE ESTAMOS</span></h3>
+        <p data-lang="en">126 Industrial Dr, Warminster, PA 18974 · (215) 771-1419. Hours are by appointment — call first. The kettle's usually on.</p>
+        <p data-lang="es" hidden>126 Industrial Dr, Warminster, PA 18974 · (215) 771-1419. Horario con cita previa — llama primero. La tetera casi siempre está encendida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="f-grid">
     <div>
@@ -305,12 +359,26 @@
       <div class="col"><b>Explore</b><a href="#receipts">The Receipts</a><a href="#visualizer">Visualizer</a><a href="#quote">Start Yours</a></div>
       <div class="col"><b>Elsewhere</b><a href="https://www.instagram.com/taylordwraps/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/taylordwraps" target="_blank" rel="noopener">Facebook</a></div>
       <div class="col"><b>Shop</b><a href="https://taylordwraps.com" target="_blank" rel="noopener">taylordwraps.com ↗</a></div>
+      <div class="col"><b>The Labs</b><a href="https://drasticstatic.github.io/fortuna-vision-public-preview/" target="_blank" rel="noopener">FortunaVision ↗</a><a href="https://theholyearthfoundation.github.io/iamoneself-retreats-publish-preview/" target="_blank" rel="noopener">IAM One Self Retreats ↗</a><a href="https://theholyearthfoundation.github.io/david-amaringo-publish-preview/" target="_blank" rel="noopener">David Amaringo ↗</a></div>
     </div>
   </div>
   <div class="f-bottom">
     <span>© 2026 TAYLOR'D WRAPS — DESIGN · PRINT · INSTALL · BRAND</span>
-    <span>HANDCRAFTED IN <i>DRASTICSTATIC LABS</i> · v0.1 SHOWCASE · ↑↑↓↓←→←→BA</span>
+    <span>HANDCRAFTED IN <i>DRASTICSTATIC LABS</i> · v1.3 SHOWCASE · ↑↑↓↓←→←→BA</span>
   </div>
 </footer>
 <div class="toast" id="toast"></div>
+<button class="tm-ribbon" id="tmBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="tmModal">⏱ TIME MACHINE · v1.3</button>
+<div class="tm-modal" id="tmModal" role="dialog" aria-modal="true" aria-label="Time machine — version archive" hidden>
+  <div class="tm-card">
+    <div class="tm-head"><span>YOU'RE ON THE REHEARSAL STAGE</span><button class="dr-x" id="tmClose" aria-label="Close time machine">✕</button></div>
+    <p class="tm-sub">This preview is where changes get tried before they go anywhere near the shop. Every version, kept and visitable.</p>
+    <div class="tm-list">
+      <div class="tm-item now"><b>v1.3 — NOW</b><span>Settings drawer, light/dark, film-trail squeegee, arrival kit (EN/ES), this machine.</span><i>YOU ARE HERE</i></div>
+      <button class="tm-item" data-src="archive/v1.2.html"><b>v1.2 — THE PSYCLONE BUTTON</b><span>PSYCLONE becomes a first-class citizen; license kit; banner README.</span><i>OPEN ▸</i></button>
+      <button class="tm-item" data-src="archive/v1.html"><b>v1 — THE FIRST PEEL</b><span>The original one-file draft, kept as a ghost capsule.</span><i>OPEN ▸</i></button>
+    </div>
+  </div>
+</div>
+<iframe id="tmFrame" title="Archived version preview" hidden></iframe>
 <script src="app.js" defer></script>

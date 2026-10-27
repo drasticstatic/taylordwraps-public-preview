@@ -484,3 +484,106 @@ window.__startPeel = peel.startPeelDemo;
 /* ---------- boot ---------- */
 })();
 
+
+const $v = s => document.querySelector(s);
+/* ---------- v1.3: settings drawer + theme + trail toggle ---------- */
+(() => {
+  const gear = $v('#gearBtn'), drawer = $v('#settingsDrawer'), ov = $v('#drawerOverlay');
+  if(!gear || !drawer) return;
+  const open = () => { drawer.hidden = false; ov.hidden = false; requestAnimationFrame(() => { drawer.classList.add('open'); }); gear.setAttribute('aria-expanded','true'); };
+  const close = () => { drawer.classList.remove('open'); gear.setAttribute('aria-expanded','false'); setTimeout(() => { drawer.hidden = true; ov.hidden = true; }, 300); };
+  gear.onclick = open; $v('#drawerClose').onclick = close; ov.onclick = close;
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !drawer.hidden) close(); });
+
+  const setTheme = light => {
+    document.body.classList.toggle('light', light);
+    $v('#thmDark').setAttribute('aria-pressed', String(!light));
+    $v('#thmLight').setAttribute('aria-pressed', String(light));
+    try{ localStorage.tw_theme = light ? 'light' : 'dark'; }catch(err){}
+  };
+  $v('#thmDark').onclick = () => setTheme(false);
+  $v('#thmLight').onclick = () => setTheme(true);
+  try{ if(localStorage.tw_theme === 'light') setTheme(true); }catch(err){}
+
+  const tb = $v('#trailBtn');
+  const setTrail = onFlag => { window.__trailOn = onFlag; tb.textContent = onFlag ? 'ON' : 'OFF';
+    tb.setAttribute('aria-pressed', String(onFlag));
+    try{ localStorage.tw_trail = onFlag ? 'on' : 'off'; }catch(err){} };
+  tb.onclick = () => setTrail(!window.__trailOn);
+  try{ setTrail(localStorage.tw_trail !== 'off'); }catch(err){ setTrail(true); }
+})();
+
+/* ---------- v1.3: film-trail squeegee cursor ---------- */
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!matchMedia('(pointer: fine)').matches) return;
+  const cv = document.createElement('canvas'); cv.id = 'trailCanvas'; document.body.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  let W, H; const fit = () => { W = cv.width = innerWidth; H = cv.height = innerHeight; };
+  fit(); addEventListener('resize', fit);
+  const cols = ['168,85,247', '236,72,153', '45,212,191'];
+  let ci = Math.floor(Math.random() * 3), last = null, lastT = 0, lastShh = 0;
+  const shh = document.createElement('span'); shh.className = 'shh'; shh.textContent = 'shhhk'; document.body.appendChild(shh);
+  function stroke(x, y, px, py){
+    ctx.strokeStyle = 'rgba(' + cols[ci] + ',.16)';
+    ctx.lineWidth = 26; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x, y); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,255,.10)'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(px, py - 6); ctx.lineTo(x, y - 6); ctx.stroke();
+  }
+  function wipe(x, y, px, py){
+    ctx.save(); ctx.globalCompositeOperation = 'destination-out';
+    ctx.lineWidth = 110; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x, y); ctx.stroke(); ctx.restore();
+  }
+  addEventListener('pointermove', e => {
+    if (!window.__trailOn) return;
+    const t = performance.now(), dt = t - lastT;
+    if (last && dt > 4 && dt < 120){
+      const v = Math.hypot(e.clientX - last.x, e.clientY - last.y) / Math.max(dt, 1);
+      if (v > 2.0){
+        wipe(e.clientX, e.clientY, last.x, last.y);
+        if (t - lastShh > 1400){ lastShh = t;
+          shh.style.left = (e.clientX - 20) + 'px'; shh.style.top = (e.clientY + 14) + 'px';
+          shh.classList.remove('pop'); void shh.offsetWidth; shh.classList.add('pop'); }
+        ci = (ci + 1) % cols.length;
+        last = { x: e.clientX, y: e.clientY }; lastT = t; return;
+      }
+    }
+    if (last) stroke(e.clientX, e.clientY, last.x, last.y);
+    last = { x: e.clientX, y: e.clientY }; lastT = t;
+  });
+  setInterval(() => {
+    ctx.save(); ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0,0,0,.02)'; ctx.fillRect(0, 0, W, H); ctx.restore();
+  }, 2000);
+})();
+
+/* ---------- v1.3: time machine ---------- */
+(() => {
+  const btn = $v('#tmBtn'), modal = $v('#tmModal'), frame = $v('#tmFrame');
+  if(!btn || !modal) return;
+  const back = document.createElement('button'); back.className = 'btn tm-back'; back.textContent = '✕ BACK TO THE PRESENT'; back.hidden = true;
+  back.onclick = () => { frame.hidden = true; back.hidden = true; frame.removeAttribute('src'); };
+  document.body.appendChild(back);
+  btn.onclick = () => { modal.hidden = false; };
+  $v('#tmClose').onclick = () => { modal.hidden = true; };
+  modal.addEventListener('click', e => { if(e.target === modal) modal.hidden = true; });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !modal.hidden) modal.hidden = true; });
+  document.querySelectorAll('.tm-item[data-src]').forEach(it => {
+    it.onclick = () => { modal.hidden = true; frame.src = it.getAttribute('data-src'); frame.hidden = false; back.hidden = false; };
+  });
+})();
+
+/* ---------- v1.3: arrival kit language toggle ---------- */
+(() => {
+  const en = $v('#langEN'), es = $v('#langES');
+  if(!en || !es) return;
+  const set = which => {
+    en.classList.toggle('on', which === 'en'); es.classList.toggle('on', which === 'es');
+    en.setAttribute('aria-pressed', String(which === 'en')); es.setAttribute('aria-pressed', String(which === 'es'));
+    document.querySelectorAll('[data-lang]').forEach(el => { el.hidden = el.getAttribute('data-lang') !== which; });
+  };
+  en.onclick = () => set('en'); es.onclick = () => set('es');
+})();
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TAYLOR'D WRAPS — v1 · the first draft (ghost capsule)</title>
+<style>
+body{margin:0;background:#0a0a0e;color:#ececf1;font-family:Helvetica,Arial,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;gap:22px;text-align:center}
+h1{font-family:Impact,'Arial Black',sans-serif;font-size:clamp(2.4rem,9vw,5.4rem);margin:0;letter-spacing:.02em}
+h1 span{color:#ec4899}
+.peel{width:min(640px,86vw);aspect-ratio:16/9;border-radius:16px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(168,85,247,.25)}
+.peel .before,.peel .after{position:absolute;inset:0}
+.peel .before{background:linear-gradient(135deg,#2a2a35,#111118)}
+.peel .after{background:linear-gradient(115deg,#a855f7,#ec4899 45%,#2dd4bf);clip-path:inset(0 100% 0 0);transition:clip-path 1.2s cubic-bezier(.2,.8,.2,1)}
+.peel:hover .after,.peel.done .after{clip-path:inset(0 0 0 0)}
+.tag{font-family:Menlo,monospace;font-size:.68rem;letter-spacing:.24em;color:#2dd4bf}
+p{color:#9a9aa8;max-width:440px;font-size:.85rem;line-height:1.6;margin:0}
+a{color:#a855f7;font-size:.8rem}
+</style></head><body>
+<h1>TAYLOR<span>'D</span></h1>
+<div class="tag">GHOST CAPSULE · v1 · THE FIRST PEEL · OCT 2026</div>
+<div class="peel" id="p"><div class="before"></div><div class="after"></div></div>
+<p>The original one-file draft — hover the panel and the film lays itself on. This capsule is a faithful reconstruction; the true v1 was overwritten by its own successors, as first drafts should be.</p>
+<a href="../">← back to the present</a>
+<script>setTimeout(function(){document.getElementById('p').classList.add('done')},600)</script>
+</body></html>

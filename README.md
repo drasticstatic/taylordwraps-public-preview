@@ -38,6 +38,8 @@ is a transformation:
 - **The Work Order**: a four-step funnel that produces a numbered spec and hands it to the
   shop by email. **No payments, no checkout, no storefront flows** — the shop's commerce
   stays on its existing portal.
+- **The Arrival Kit**: bilingual (EN/ES) — wash it, bring your vector art, approve the
+  proof, cure for 48–72 hours. Four cards, zero surprises, one kettle.
 - **From The Shop**: the culture layer. 431 reels and counting.
 
 > **Not a storefront.** This is a design preview by
@@ -46,11 +48,15 @@ is a transformation:
 
 ## 🔮 PSYCLONE MODE
 
-There is a **◐ PSYCLONE** button in the nav — one tap on any device, no keyboard required,
-and it announces its state to screen readers (`aria-pressed`). Power users keep the classic
-**↑↑↓↓←→←→BA**. The page hue-cycles until you tap it again. Also hiding in the code:
-a word the shop refuses to say, a four-legged quality inspector, and a returning-visitor
-greeting with the day's mystery queue item.
+Everything playful lives in one **⚙ Settings drawer**: a minimal **light/dark theme**,
+**PSYCLONE MODE** (the page hue-cycles; `aria-pressed` announces state to screen readers;
+the classic **↑↑↓↓←→←→BA** still works for power users), the **film trail**, and the
+wallet connect. Also hiding in the code: a word the shop refuses to say, a four-legged
+quality inspector, and a returning-visitor greeting with the day's mystery queue item.
+
+And then there is the **film trail**: on a fine-pointer device the cursor lays translucent
+vinyl behind it — the trail waits right where you left it until a fast **shhhk** swipe
+squeegees it clean. Slow movement wraps; fast movement unwraps.
 
 ## 🧪 The Lab
 
@@ -63,6 +69,17 @@ Two compliant experiments baked into the frame:
   an explicit demo wallet otherwise) that unlocks The Vault: a merch waitlist, a sticker
   pack, first look at the film library. **No payments, no custody** — merch stays on the
   shop's external storefront.
+
+## ⏱ Time machine
+
+The vertical ribbon at the right edge opens the rehearsal-stage archive: the current
+version, v1.2 (the PSYCLONE button release) and a ghost capsule of v1, the original
+one-file draft — each opens live in an overlay. Every version, kept and visitable.
+
+## 🧪 More from drasticstatic labs
+
+- 👁️ [FortunaVision](https://drasticstatic.github.io/fortuna-vision-public-preview/) — a chart-first market & treasury workstation
+- 🌀 [IAM One Self retreats preview](https://theholyearthfoundation.github.io/iamoneself-retreats-publish-preview/) · 🎨 [David Amaringo](https://theholyearthfoundation.github.io/david-amaringo-publish-preview/) · 🍄 [Psychedelic-policy-reform dapp](https://github.com/drasticstatic/psychedelic-policy-reform-dapp-public-preview)
 
 ## 🔒 Private / public split
 
