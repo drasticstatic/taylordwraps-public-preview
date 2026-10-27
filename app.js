@@ -208,9 +208,9 @@ window.__startPeel = peel.startPeelDemo;
     satin: {n:'SATIN', f:'saturate(.92) contrast(1.02) brightness(.97)'},
     matte: {n:'MATTE', f:'saturate(.78) contrast(.98) brightness(.9)'},
   };
-  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', custom:null };
-  const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK', atv:'ATV QUAD', jetski:'JET SKI', snow:'SNOWMOBILE', custom:'YOUR RIDE' };
-  const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', atv:'-10deg', jetski:'-6deg', snow:'-8deg', custom:'-8deg' };
+  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc-white.jpg', rcReal:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', boards:'assets/boards.jpg', custom:null };
+  const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK \u00b7 FRESH SHELL', rcReal:'RC TRUCK \u00b7 MOM\u2019S BUILD', atv:'ATV QUAD', jetski:'JET SKI', snow:'SNOWMOBILE', boards:'SKATE + SNOW DECKS', custom:'YOUR RIDE' };
+  const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', rcReal:'-8deg', atv:'-10deg', jetski:'-6deg', snow:'-8deg', boards:'-4deg', custom:'-8deg' };
   let film = FILMS[0], fin = 'gloss', body = 'van';
   const img = $('#vizImg');
 
@@ -285,6 +285,7 @@ window.__startPeel = peel.startPeelDemo;
     if (body==='custom'){ vtxt.style.left='50%'; vtxt.style.top='50%'; }
     if (window.__vizDirty) window.__vizDirty();
   }
+  window.__vizState = () => ({ body, film, fin, FINS });
 
   $('#vizSend').addEventListener('click', () => {
     // prefill the funnel with the visualizer's choices
@@ -760,5 +761,145 @@ const $v = s => document.querySelector(s);
 (() => {
   const en = document.getElementById('langEN'), es = document.getElementById('langES');
   if(en) en.classList.add('doodle');
+})();
+
+
+/* ---------- v1.6: TRUE WRAP — film lands on the body, not the backdrop ---------- */
+(() => {
+  const stage = document.querySelector('.viz .stage');
+  const img = document.getElementById('vizImg');
+  if(!stage || !img || img.dataset.wrapInit) return;
+  img.dataset.wrapInit = '1';
+  img.style.filter = 'none';
+  const vtxt = document.getElementById('vizText');
+  const cv = document.createElement('canvas');
+  cv.className = 'viz-canvas'; cv.setAttribute('aria-hidden','true');
+  stage.insertBefore(cv, vtxt || null);
+  const chip = document.createElement('div');
+  chip.className = 'viz-mode-chip';
+  stage.appendChild(chip);
+  const smooth = (x,a,b) => { const t = Math.min(1, Math.max(0, (x-a)/(b-a))); return t*t*(3-2*t); };
+  let raf = 0;
+  function render(){
+    const st = window.__vizState && window.__vizState();
+    if(!st) return;
+    const W = img.naturalWidth, H = img.naturalHeight;
+    if(!W || !H) return;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    let box = stage.getBoundingClientRect();
+    let cw, ch;
+    if(box.width > 100){
+      cw = Math.round(box.width * dpr); ch = Math.round(box.height * dpr);
+    } else {
+      // section not laid out yet (off-screen lazy layout): size from the image itself
+      const ar = W / H;
+      cw = Math.min(1280, W); ch = Math.round(cw / ar);
+    }
+    const cap = 1400; if(cw > cap){ ch = Math.round(ch * cap / cw); cw = cap; }
+    cv.width = cw; cv.height = ch;
+    const cx = cv.getContext('2d', { willReadFrequently: true });
+    // cover-crop the source like object-fit: cover
+    const s = Math.max(cw / W, ch / H);
+    const sw = cw / s, sh = ch / s, sx = (W - sw) / 2, sy = (H - sh) / 2;
+    const finF = st.FINS && st.FINS[st.fin] ? st.FINS[st.fin].f : '';
+    try { cx.filter = finF; } catch(e){}
+    cx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+    cx.filter = 'none';
+    // mask: white / neutral paint = low chroma, mid-high luminance
+    const base = cx.getImageData(0, 0, cw, ch);
+    const mk = document.createElement('canvas'); mk.width = cw; mk.height = ch;
+    const mx = mk.getContext('2d');
+    const md = mx.createImageData(cw, ch);
+    const p = base.data, q = md.data;
+    for(let i = 0; i < p.length; i += 4){
+      const r = p[i], g = p[i+1], b = p[i+2];
+      const hi = Math.max(r,g,b), lo = Math.min(r,g,b);
+      const chroma = (hi - lo) / 255;
+      const lum = (0.2126*r + 0.7152*g + 0.0722*b) / 255;
+      let wgt = (1 - Math.min(1, chroma * 3.4)) * smooth(lum, .28, .52);
+      if(lum < .15) wgt = 0;
+      q[i] = q[i+1] = q[i+2] = 255;
+      q[i+3] = (wgt * 255) | 0;
+    }
+    mx.putImageData(md, 0, 0);
+    // feather the cut-line
+    const mk2 = document.createElement('canvas'); mk2.width = cw; mk2.height = ch;
+    const mx2 = mk2.getContext('2d');
+    mx2.filter = 'blur(' + Math.max(2, cw/300) + 'px)';
+    mx2.drawImage(mk, 0, 0);
+    // film layer
+    const fl = document.createElement('canvas'); fl.width = cw; fl.height = ch;
+    const fx = fl.getContext('2d');
+    const hue = st.film.h, sat = Math.max(45, Math.min(92, st.film.s));
+    const grad = fx.createLinearGradient(0, 0, cw, ch);
+    grad.addColorStop(0, 'hsl(' + hue + ' ' + sat + '% 58%)');
+    grad.addColorStop(.45, 'hsl(' + ((hue+34)%360) + ' ' + sat + '% 44%)');
+    grad.addColorStop(1, 'hsl(' + ((hue+326)%360) + ' ' + sat + '% 52%)');
+    fx.fillStyle = grad; fx.fillRect(0, 0, cw, ch);
+    // carbon-weave texture so it reads as material, not a color fill
+    fx.globalAlpha = .10; fx.strokeStyle = '#000'; fx.lineWidth = Math.max(1, cw/500);
+    fx.beginPath();
+    for(let x = -ch; x < cw + ch; x += Math.max(7, cw/160)){
+      fx.moveTo(x, 0); fx.lineTo(x + ch, ch);
+    }
+    fx.stroke();
+    fx.setLineDash([]);
+    fx.globalAlpha = 1;
+    // trim film to the body
+    fx.globalCompositeOperation = 'destination-in';
+    fx.drawImage(mk2, 0, 0);
+    fx.globalCompositeOperation = 'source-over';
+    // lay the film: color blend keeps every crease and shadow
+    cx.save();
+    cx.globalCompositeOperation = 'color';
+    cx.drawImage(fl, 0, 0);
+    cx.globalCompositeOperation = 'multiply';
+    cx.globalAlpha = .30;
+    cx.drawImage(fl, 0, 0);
+    cx.restore();
+    chip.textContent = st.body === 'custom'
+      ? 'UPLOAD MODE \u2014 hue-wash only; white or neutral paint wraps cleanest. True cut-lines need the shop\u2019s eye.'
+      : 'STUDIO PRESET \u2014 the film reads the body, not the backdrop.';
+  }
+  const schedule = () => { if(raf) return; raf = requestAnimationFrame(() => { raf = 0; render(); }); };
+  img.addEventListener('load', schedule);
+  new MutationObserver(schedule).observe(document.getElementById('vizBadge'), { childList: true, subtree: true, characterData: true });
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es => { if(es.some(e => e.isIntersecting)) schedule(); }, { rootMargin: '300px' }).observe(stage);
+  }
+  addEventListener('resize', schedule);
+  if(img.complete && img.naturalWidth) schedule();
+})();
+
+/* ---------- v1.6: peel buttons breathe + whisper ---------- */
+(() => {
+  document.querySelectorAll('.btn.solid').forEach(b => {
+    if(b.querySelector('.peel-msg')) return;
+    if(!b.dataset.peel){
+      b.dataset.peel = b.closest('#hero') ? 'ZERO BUBBLES. GUARANTEED.'
+        : b.closest('.funnel') ? 'NO PAYMENT HERE \u2014 WE CALL YOU'
+        : 'SHHHK \u2014 HEAR THAT? THAT\u2019S QUALITY';
+    }
+    const s = document.createElement('span');
+    s.className = 'peel-msg'; s.textContent = b.dataset.peel; s.setAttribute('aria-hidden','true');
+    b.appendChild(s);
+  });
+})();
+
+/* ---------- v1.6: scrollspy — the doodle stays where you are ---------- */
+(() => {
+  const links = [...document.querySelectorAll('nav a[href^="#"]')];
+  if(!links.length || !('IntersectionObserver' in window)) return;
+  const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => {
+      const a = map.get(e.target.id);
+      if(a && e.isIntersecting){
+        links.forEach(x => x.classList.remove('here'));
+        a.classList.add('here');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  map.forEach((a, id) => { const s = document.getElementById(id); if(s) obs.observe(s); });
 })();
 

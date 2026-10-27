@@ -135,7 +135,7 @@ nav .links{display:none}
 
 /* ---------- visualizer ---------- */
 #visualizer{background:var(--panel)}
-.viz{display:grid;grid-template-columns:.9fr 1.1fr;gap:2.4rem;align-items:start}
+.viz{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:2.4rem;align-items:start}.viz>.stage,.viz>.ctrls{min-width:0}
 @media(max-width:960px){.viz{grid-template-columns:1fr}}
 .viz .stage{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--panel2);position:relative}
 .viz .stage img{width:100%;aspect-ratio:16/10;object-fit:cover;transition:filter .45s cubic-bezier(.4,0,.2,1)}
@@ -149,7 +149,7 @@ nav .links{display:none}
 .sw:hover{transform:translateY(-3px)}
 .sw.on{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.15)}
 .sw span{position:absolute;inset:auto 0 .2rem;text-align:center;font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;color:rgba(255,255,255,.85);text-shadow:0 1px 3px rgba(0,0,0,.8)}
-.seg{display:flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:max-content}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:18px;overflow:hidden;width:100%}
 .seg button{padding:.65rem 1.4rem;background:transparent;border:none;color:var(--dim);font-family:var(--mono);font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;transition:background .2s,color .2s}
 .seg button.on{background:var(--grad);color:#0a0a0e;font-weight:700}
 
@@ -392,3 +392,19 @@ body.toolmode a,body.toolmode button,body.toolmode input,body.toolmode textarea,
 .w-door .w-en{font-family:var(--disp);font-size:clamp(1.6rem,3.4vw,2.4rem);letter-spacing:.02em}
 .w-door .w-es{font-family:var(--disp);font-size:clamp(1.1rem,2.4vw,1.6rem);letter-spacing:.02em;color:var(--a3)}
 .w-honest{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--faint);margin:2px 0 22px;max-width:640px;line-height:1.7}
+
+/* ---------- v1.6: true wrap canvas ---------- */
+.viz-canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;z-index:1;pointer-events:none}
+.viz .stage #vizImg{visibility:hidden}
+.viz .stage #vizText{z-index:4}
+.viz-mode-chip{position:absolute;left:10px;bottom:46px;z-index:5;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;background:rgba(10,10,14,.82);color:var(--a3);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:5px 9px;max-width:calc(100% - 20px)}
+/* ---------- v1.6: peel breathes + reveals message ---------- */
+@keyframes peelbreathe{0%{transform:translate(-4px,4px) rotate(45deg)}100%{transform:translate(-14px,14px) rotate(53deg)}}
+.btn.solid:hover::after{opacity:1;transform:translate(-4px,4px) rotate(45deg);animation:peelbreathe 1.4s ease-in-out infinite alternate}
+.peel-msg{position:absolute;top:-34px;right:-4px;background:#0a0a0e;color:#e8dcc0;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;padding:6px 10px;border:1px solid rgba(232,220,192,.4);border-radius:6px;opacity:0;transform:translateY(8px) rotate(1.5deg);transition:opacity .35s .5s,transform .35s .5s;pointer-events:none;white-space:nowrap;z-index:6}
+.btn.solid:hover .peel-msg{opacity:1;transform:translateY(0) rotate(0)}
+/* ---------- v1.6: scrollspy ---------- */
+nav a.here{color:var(--a2)}
+nav a.doodle.here::after{transform:scaleX(1)}
+/* ---------- v1.6: 404 ---------- */
+.lost-hero{font-family:var(--disp);font-size:clamp(4rem,16vw,11rem);line-height:.9;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
