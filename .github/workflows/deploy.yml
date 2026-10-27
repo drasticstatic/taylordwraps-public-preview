@@ -20,24 +20,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Bootstrap signed bundle (first run only)
-        if: ${{ hashFiles('index.html') == '' }}
+      - name: Sync signed bundle (when changed)
         run: |
           python3 - <<'PY'
-          import json, urllib.request, hashlib, zipfile, io
+          import json, urllib.request, hashlib, zipfile, io, os, subprocess
           m = json.load(open('.bootstrap/bundle.json'))
-          req = urllib.request.Request(m['url'], headers={'User-Agent': 'taylordwraps-ci/1.0'})
-          data = urllib.request.urlopen(req, timeout=120).read()
-          assert hashlib.sha256(data).hexdigest() == m['sha256'], 'bundle sha mismatch'
-          zipfile.ZipFile(io.BytesIO(data)).extractall('.')
-          print('bundle verified and extracted')
+          marker = '.bootstrap/last-applied'
+          if os.path.exists(marker) and open(marker).read().strip() == m['sha256']:
+              print('bundle already applied - nothing to sync')
+          else:
+              req = urllib.request.Request(m['url'], headers={'User-Agent': 'taylordwraps-ci/1.0'})
+              data = urllib.request.urlopen(req, timeout=120).read()
+              assert hashlib.sha256(data).hexdigest() == m['sha256'], 'bundle sha mismatch - refusing to apply'
+              zipfile.ZipFile(io.BytesIO(data)).extractall('.')
+              open(marker, 'w').write(m['sha256'])
+              subprocess.run(['git', 'config', 'user.name', 'littlebird-ci[bot]'])
+              subprocess.run(['git', 'config', 'user.email', 'littlebird-ci@users.noreply.github.com'])
+              subprocess.run(['git', 'add', '-A'])
+              subprocess.run(['git', 'commit', '-m', '[skip ci] sync signed bundle ' + m['sha256'][:12]], check=False)
+              subprocess.run(['git', 'push'])
+              print('bundle verified, applied and committed')
           PY
-          rm -rf .bootstrap
-          git config user.name "littlebird-ci[bot]"
-          git config user.email "littlebird-ci@users.noreply.github.com"
-          git add -A
-          git commit -m "[skip ci] bootstrap site bundle (signed sha256)"
-          git push
 
       - name: Assemble site
         run: |
