@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TAYLOR'D WRAPS — Proposal Sheet</title>
+<style>
+:root{--rasp:#B00069;--ink:#000;--paper:#fff;--mut:#666}
+*{box-sizing:border-box}
+body{margin:0;font-family:Helvetica,Arial,sans-serif;background:#f2f2f2;color:var(--ink)}
+.bar{background:var(--ink);color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;letter-spacing:.14em}
+.bar b{color:var(--rasp)}
+.wrap{display:grid;grid-template-columns:340px 1fr;gap:20px;max-width:1100px;margin:24px auto;padding:0 16px}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid #ddd;border-radius:12px;padding:18px}
+.panel h2{font-size:.8rem;letter-spacing:.18em;margin:0 0 14px;color:var(--rasp)}
+label{display:block;font-size:.66rem;letter-spacing:.12em;color:var(--mut);margin:12px 0 4px;text-transform:uppercase}
+input,textarea,select{width:100%;border:1px solid #ccc;border-radius:8px;padding:9px 10px;font:inherit;font-size:.9rem}
+.svc{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:.86rem}
+.svc input[type=checkbox]{width:auto}
+.svc input[type=number]{width:90px;margin-left:auto;padding:5px 7px}
+button.go{width:100%;margin-top:16px;background:var(--rasp);color:#fff;border:0;border-radius:10px;padding:13px;font-weight:700;font-size:.85rem;letter-spacing:.1em;cursor:pointer}
+.sheet{background:#fff;border:1px solid #ddd;border-radius:12px;padding:34px;min-height:600px}
+.shead{display:flex;justify-content:space-between;border-bottom:4px solid var(--rasp);padding-bottom:14px;margin-bottom:20px}
+.shead h1{margin:0;font-size:1.5rem;letter-spacing:.03em}
+.shead .tag{font-size:.68rem;letter-spacing:.22em;color:var(--mut)}
+.shead .num{font-family:monospace;color:var(--rasp);font-size:.8rem;text-align:right}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+td,th{padding:9px 6px;border-bottom:1px solid #eee;text-align:left}
+th{font-size:.64rem;letter-spacing:.16em;color:var(--mut)}
+td.amt,th.amt{text-align:right;font-family:monospace}
+.tot td{font-weight:700;border-top:2px solid var(--ink);border-bottom:0;font-size:1rem}
+.terms{margin-top:22px;font-size:.76rem;color:var(--mut);line-height:1.7}
+.sig{margin-top:36px;display:flex;gap:40px}
+.sig div{flex:1;border-top:1px solid var(--ink);padding-top:6px;font-size:.66rem;letter-spacing:.14em;color:var(--mut)}
+@media print{.panel,.bar{display:none}.wrap{display:block;margin:0;padding:0}.sheet{border:0}}
+</style></head><body>
+<div class="bar"><span><b>TAYLOR'D</b> WRAPS · PROPOSAL SHEET</span><span>126 INDUSTRIAL DR · WARMINSTER, PA · (215) 771-1419</span></div>
+<div class="wrap">
+  <div class="panel">
+    <h2>BUILD THE PROPOSAL</h2>
+    <label>Client / Shop</label><input id="fClient" placeholder="Sullivan's Tavern">
+    <label>Contact</label><input id="fContact" placeholder="name · phone · email">
+    <label>Vehicle / Asset</label><input id="fAsset" placeholder="2024 Transit 350 — white">
+    <label>Date</label><input id="fDate" type="date">
+    <h2 style="margin-top:20px">SERVICES</h2>
+    <div class="svc"><input type="checkbox" data-n="Full color-change wrap" data-p="3200" checked><span>Full color-change wrap</span><input type="number" value="3200"></div>
+    <div class="svc"><input type="checkbox" data-n="Chrome delete" data-p="650"><span>Chrome delete</span><input type="number" value="650"></div>
+    <div class="svc"><input type="checkbox" data-n="Fleet graphics / lettering" data-p="900"><span>Fleet graphics / lettering</span><input type="number" value="900"></div>
+    <div class="svc"><input type="checkbox" data-n="Window tint" data-p="450"><span>Window tint</span><input type="number" value="450"></div>
+    <div class="svc"><input type="checkbox" data-n="Paint protection film" data-p="1800"><span>Paint protection film</span><input type="number" value="1800"></div>
+    <div class="svc"><input type="checkbox" data-n="Marine / boat wrap" data-p="2400"><span>Marine / boat wrap</span><input type="number" value="2400"></div>
+    <div class="svc"><input type="checkbox" data-n="Custom design proof" data-p="250" checked><span>Custom design proof</span><input type="number" value="250"></div>
+    <label>Notes</label><textarea id="fNotes" rows="3" placeholder="Film brand, finish, timeline…"></textarea>
+    <label>Valid for (days)</label><input id="fValid" type="number" value="30">
+    <button class="go" onclick="window.print()">🖨 PRINT / SAVE PDF</button>
+    <p style="font-size:.64rem;color:var(--mut);margin-top:10px">Static sheet — nothing is sent or stored. Print to PDF and hand it to the customer.</p>
+  </div>
+  <div class="sheet">
+    <div class="shead">
+      <div><h1>TAYLOR'D WRAPS</h1><div class="tag">DESIGN · PRINT · INSTALL · BRAND</div></div>
+      <div class="num">PROPOSAL <span id="pNum">#TW-0000</span><br><span id="pDate"></span></div>
+    </div>
+    <p><b id="pClient">Client</b><br><span id="pContact" style="color:var(--mut);font-size:.85rem">—</span></p>
+    <p><b>Subject:</b> <span id="pAsset">—</span></p>
+    <table><thead><tr><th>SERVICE</th><th class="amt">INVESTMENT</th></tr></thead><tbody id="pLines"></tbody></table>
+    <p style="margin-top:16px;font-size:.85rem" id="pNotes"></p>
+    <div class="terms"><b style="color:var(--ink)">THE FINE PRINT.</b> <span id="pValid">30</span>-day validity. 50% deposit schedules the install; balance due at pickup. Film warranty per manufacturer; workmanship warrantied 1 year. Fresh film cures 48–72 hours — no washing during cure.</div>
+    <div class="sig"><div>CLIENT SIGNATURE</div><div>TAYLOR'D WRAPS</div></div>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const num=n=>n.toLocaleString('en-US',{style:'currency',currency:'USD'});
+function rnd(){$('pNum').textContent='#TW-'+String(Math.floor(1000+Math.random()*9000))}
+function render(){
+  $('pClient').textContent=$('fClient').value||'Client';
+  $('pContact').textContent=$('fContact').value||'';
+  $('pAsset').textContent=$('fAsset').value||'—';
+  $('pNotes').textContent=$('fNotes').value?('NOTES: '+$('fNotes').value):'';
+  $('pValid').textContent=$('fValid').value||'30';
+  if($('fDate').value)$('pDate').textContent=new Date($('fDate').value+'T12:00:00').toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+  let total=0,rows='';
+  document.querySelectorAll('.svc').forEach(r=>{
+    const c=r.querySelector('input[type=checkbox]'),n=c.dataset.n,a=parseFloat(r.querySelector('input[type=number]').value)||0;
+    if(c.checked&&a){total+=a;rows+='<tr><td>'+n+'</td><td class="amt">'+num(a)+'</td></tr>'}
+  });
+  rows+='<tr class="tot"><td>TOTAL</td><td class="amt">'+num(total)+'</td></tr>';
+  $('pLines').innerHTML=rows;
+}
+document.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',render));
+document.querySelectorAll('.svc input[type=checkbox]').forEach(c=>c.addEventListener('change',render));
+rnd();render();
+</script>
+</body></html>

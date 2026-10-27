@@ -554,25 +554,10 @@ const $v = s => document.querySelector(s);
     last = { x: e.clientX, y: e.clientY }; lastT = t;
   });
   setInterval(() => {
+    if (window.__toolActive) return;
     ctx.save(); ctx.globalCompositeOperation = 'destination-out';
     ctx.fillStyle = 'rgba(0,0,0,.02)'; ctx.fillRect(0, 0, W, H); ctx.restore();
   }, 2000);
-})();
-
-/* ---------- v1.3: time machine ---------- */
-(() => {
-  const btn = $v('#tmBtn'), modal = $v('#tmModal'), frame = $v('#tmFrame');
-  if(!btn || !modal) return;
-  const back = document.createElement('button'); back.className = 'btn tm-back'; back.textContent = '✕ BACK TO THE PRESENT'; back.hidden = true;
-  back.onclick = () => { frame.hidden = true; back.hidden = true; frame.removeAttribute('src'); };
-  document.body.appendChild(back);
-  btn.onclick = () => { modal.hidden = false; };
-  $v('#tmClose').onclick = () => { modal.hidden = true; };
-  modal.addEventListener('click', e => { if(e.target === modal) modal.hidden = true; });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !modal.hidden) modal.hidden = true; });
-  document.querySelectorAll('.tm-item[data-src]').forEach(it => {
-    it.onclick = () => { modal.hidden = true; frame.src = it.getAttribute('data-src'); frame.hidden = false; back.hidden = false; };
-  });
 })();
 
 /* ---------- v1.3: arrival kit language toggle ---------- */
@@ -585,5 +570,88 @@ const $v = s => document.querySelector(s);
     document.querySelectorAll('[data-lang]').forEach(el => { el.hidden = el.getAttribute('data-lang') !== which; });
   };
   en.onclick = () => set('en'); es.onclick = () => set('es');
+})();
+
+
+/* ---------- v1.4: THE TOOLBOX — vinyl paint studio (never blocks the page) ---------- */
+(() => {
+  const box = document.getElementById('toolbox');
+  if (!box) return;
+  let cv = document.getElementById('trailCanvas');
+  if (!cv){ cv = document.createElement('canvas'); cv.id = 'trailCanvas'; document.body.appendChild(cv); }
+  const ctx = cv.getContext('2d');
+  let W, H; const fit = () => { W = cv.width = innerWidth; H = cv.height = innerHeight; };
+  fit(); addEventListener('resize', fit);
+
+  const OPS = [];            // replayable stroke ops
+  let strokes = [];          // groups of ops (for undo)
+  let tool = 'trail', film = '#a855f7', last = null, lastT = 0, strokeStart = 0;
+
+  const btns = [...box.querySelectorAll('.tb-btn[data-tool]')];
+  const swatches = [...box.querySelectorAll('.swatch')];
+  const tip = document.createElement('div'); tip.className = 'tb-tip'; document.body.appendChild(tip);
+  const LABELS = { trail: 'CURSOR FILM — slow lays it down', squeegee: 'SQUEEGEE — shhhk it clean', eraser: 'ERASER — lift the film', blade: 'BLADE — score a cut line', heat: 'HEAT GUN — soften & feather' };
+  btns.forEach(b => {
+    b.addEventListener('mouseenter', () => { tip.textContent = LABELS[b.dataset.tool] || ''; tip.style.top = b.getBoundingClientRect().top + 'px'; tip.classList.add('show'); });
+    b.addEventListener('mouseleave', () => tip.classList.remove('show'));
+    b.onclick = () => setTool(b.dataset.tool);
+  });
+  swatches.forEach(s => s.onclick = () => { film = s.dataset.film; swatches.forEach(x => x.classList.toggle('on', x === s)); setTool('film'); });
+  function setTool(t){
+    tool = t;
+    window.__toolActive = t !== 'trail';
+    window.__trailOn = t === 'trail';
+    btns.forEach(b => { const on = b.dataset.tool === t; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+    if (t !== 'trail' && t !== 'film') last = null;
+  }
+  window.__paintOps = OPS; window.__paintStrokes = () => strokes;
+
+  function seg(x, y, px, py, w, color, mode, blur){
+    ctx.save();
+    if (mode === 'erase'){ ctx.globalCompositeOperation = 'destination-out'; ctx.lineWidth = w; }
+    else if (mode === 'feather'){ ctx.globalCompositeOperation = 'destination-out'; ctx.lineWidth = w; ctx.globalAlpha = .18; }
+    else { ctx.strokeStyle = color; ctx.lineWidth = w; }
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    if (blur){ ctx.shadowColor = color; ctx.shadowBlur = blur; }
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x, y); ctx.stroke();
+    ctx.restore();
+    OPS.push({ x, y, px, py, w, color, mode, blur });
+  }
+  function commit(){
+    const now = performance.now();
+    if (!strokes.length || now - strokeStart > 260){ strokes.push([]); }
+    strokes[strokes.length - 1].push(OPS[OPS.length - 1]);
+    strokeStart = now;
+  }
+  addEventListener('pointermove', e => {
+    if (tool === 'trail') return;
+    const px = last ? last.x : e.clientX, py = last ? last.y : e.clientY;
+    if (tool === 'squeegee'){ seg(e.clientX, e.clientY, px, py, 110, null, 'erase'); seg(e.clientX, e.clientY, px, py, 3, 'rgba(255,255,255,.5)', 'draw'); }
+    else if (tool === 'eraser'){ seg(e.clientX, e.clientY, px, py, 60, null, 'erase'); }
+    else if (tool === 'blade'){ seg(e.clientX, e.clientY, px, py, 2, 'rgba(255,255,255,.85)', 'draw', 4); }
+    else if (tool === 'heat'){ for (let i = 0; i < 3; i++) seg(e.clientX, e.clientY, px, py, 90 + i * 22, null, 'feather'); }
+    else if (tool === 'film'){ seg(e.clientX, e.clientY, px, py, 30, film, 'draw'); seg(e.clientX, e.clientY - 8, px, py - 8, 5, 'rgba(255,255,255,.35)', 'draw'); }
+    last = { x: e.clientX, y: e.clientY };
+    commit();
+  });
+  addEventListener('pointerdown', () => { last = null; strokeStart = 0; });
+
+  const replay = () => {
+    ctx.clearRect(0, 0, W, H);
+    OPS.length = 0;
+    strokes.flat().forEach(o => {
+      ctx.save();
+      if (o.mode === 'erase'){ ctx.globalCompositeOperation = 'destination-out'; ctx.lineWidth = o.w; }
+      else if (o.mode === 'feather'){ ctx.globalCompositeOperation = 'destination-out'; ctx.lineWidth = o.w; ctx.globalAlpha = .18; }
+      else { ctx.strokeStyle = o.color; ctx.lineWidth = o.w; }
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      if (o.blur){ ctx.shadowColor = o.color; ctx.shadowBlur = o.blur; }
+      ctx.beginPath(); ctx.moveTo(o.px, o.py); ctx.lineTo(o.x, o.y); ctx.stroke();
+      ctx.restore();
+    });
+  };
+  document.getElementById('tbUndo').onclick = () => { strokes.pop(); strokes = strokes.filter(s => s.length); replay(); };
+  document.getElementById('tbClear').onclick = () => { strokes = []; replay(); };
+  window.__toolboxReady = true;
 })();
 

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAYLOR'D WRAPS — Design. Print. Install. Brand.</title>
 <meta name="description" content="Custom is good. Taylor'd is better. Full custom advertisement wraps, color changes, fleet graphics, marine graphics and brand identity — Warminster, PA.">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=140">
 </head>
 <div id="loader"><div class="lgo">TAYLOR<span class="gradtxt">'D</span></div><div class="bar"><i id="lbar"></i></div><div class="pct" id="lpct">WARMING THE LAMINATOR — 0%</div></div>
 
@@ -356,29 +356,37 @@
       </div>
     </div>
     <div class="f-links">
-      <div class="col"><b>Explore</b><a href="#receipts">The Receipts</a><a href="#visualizer">Visualizer</a><a href="#quote">Start Yours</a></div>
+      <div class="col"><b>Explore</b><a href="#receipts">The Receipts</a><a href="#visualizer">Visualizer</a><a href="#quote">Start Yours</a><a href="proposal.html">Proposal Sheet</a></div>
       <div class="col"><b>Elsewhere</b><a href="https://www.instagram.com/taylordwraps/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/taylordwraps" target="_blank" rel="noopener">Facebook</a></div>
       <div class="col"><b>Shop</b><a href="https://taylordwraps.com" target="_blank" rel="noopener">taylordwraps.com ↗</a></div>
-      <div class="col"><b>The Labs</b><a href="https://drasticstatic.github.io/fortuna-vision-public-preview/" target="_blank" rel="noopener">FortunaVision ↗</a><a href="https://theholyearthfoundation.github.io/iamoneself-retreats-publish-preview/" target="_blank" rel="noopener">IAM One Self Retreats ↗</a><a href="https://theholyearthfoundation.github.io/david-amaringo-publish-preview/" target="_blank" rel="noopener">David Amaringo ↗</a></div>
+      <div class="col"><b>The Dev</b><a href="https://drasticstatic.github.io/" target="_blank" rel="noopener">MEET THE DEV ↗</a><a href="https://github.com/drasticstatic/taylordwraps-public-preview" target="_blank" rel="noopener">SITE SOURCE ↗</a></div>
     </div>
   </div>
   <div class="f-bottom">
     <span>© 2026 TAYLOR'D WRAPS — DESIGN · PRINT · INSTALL · BRAND</span>
-    <span>HANDCRAFTED IN <i>DRASTICSTATIC LABS</i> · v1.3 SHOWCASE · ↑↑↓↓←→←→BA</span>
+    <span>HANDCRAFTED IN <i>DRASTICSTATIC LABS</i> · v1.4 SHOWCASE · ↑↑↓↓←→←→BA</span>
   </div>
 </footer>
 <div class="toast" id="toast"></div>
-<button class="tm-ribbon" id="tmBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="tmModal">⏱ TIME MACHINE · v1.3</button>
-<div class="tm-modal" id="tmModal" role="dialog" aria-modal="true" aria-label="Time machine — version archive" hidden>
-  <div class="tm-card">
-    <div class="tm-head"><span>YOU'RE ON THE REHEARSAL STAGE</span><button class="dr-x" id="tmClose" aria-label="Close time machine">✕</button></div>
-    <p class="tm-sub">This preview is where changes get tried before they go anywhere near the shop. Every version, kept and visitable.</p>
-    <div class="tm-list">
-      <div class="tm-item now"><b>v1.3 — NOW</b><span>Settings drawer, light/dark, film-trail squeegee, arrival kit (EN/ES), this machine.</span><i>YOU ARE HERE</i></div>
-      <button class="tm-item" data-src="archive/v1.2.html"><b>v1.2 — THE PSYCLONE BUTTON</b><span>PSYCLONE becomes a first-class citizen; license kit; banner README.</span><i>OPEN ▸</i></button>
-      <button class="tm-item" data-src="archive/v1.html"><b>v1 — THE FIRST PEEL</b><span>The original one-file draft, kept as a ghost capsule.</span><i>OPEN ▸</i></button>
-    </div>
-  </div>
+<a class="tm-ribbon" id="tmBtn" href="time-machine.html" title="Step back in time">⏱ STEP BACK IN TIME</a>
+<div id="toolbox" role="toolbar" aria-label="Vinyl toolbox — paint tools" aria-orientation="vertical">
+  <button class="tb-btn" data-tool="trail" aria-pressed="true"><i>✋</i>TRAIL</button>
+  <button class="tb-btn" data-tool="squeegee" aria-pressed="false"><i>🧽</i>SQUEE</button>
+  <button class="tb-btn" data-tool="eraser" aria-pressed="false"><i>◍</i>ERASE</button>
+  <button class="tb-btn" data-tool="blade" aria-pressed="false"><i>✂</i>BLADE</button>
+  <button class="tb-btn" data-tool="heat" aria-pressed="false"><i>♨</i>HEAT</button>
+  <div class="tb-sep" role="separator"></div>
+  <button class="swatch" data-film="#a855f7" style="background:#a855f7" aria-label="violet film"></button>
+  <button class="swatch" data-film="#ec4899" style="background:#ec4899" aria-label="magenta film"></button>
+  <button class="swatch" data-film="#2dd4bf" style="background:#2dd4bf" aria-label="teal film"></button>
+  <button class="swatch" data-film="#fbbf24" style="background:#fbbf24" aria-label="amber film"></button>
+  <button class="swatch" data-film="#3b82f6" style="background:#3b82f6" aria-label="blue film"></button>
+  <button class="swatch" data-film="#22c55e" style="background:#22c55e" aria-label="green film"></button>
+  <button class="swatch" data-film="#e5e7eb" style="background:#e5e7eb" aria-label="white film"></button>
+  <button class="swatch" data-film="#111118" style="background:#111118" aria-label="black film"></button>
+  <div class="tb-sep" role="separator"></div>
+  <button class="tb-btn" id="tbUndo" aria-label="Undo last stroke"><i>↶</i>UNDO</button>
+  <button class="tb-btn" id="tbClear" aria-label="Clear all paint"><i>✕</i>CLEAR</button>
 </div>
-<iframe id="tmFrame" title="Archived version preview" hidden></iframe>
-<script src="app.js" defer></script>
+
+<script src="app.js?v=140" defer></script>
