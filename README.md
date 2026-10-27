@@ -6,6 +6,7 @@
 
 **Live preview:** https://drasticstatic.github.io/taylordwraps-public-preview/
 **Next era (Next.js):** https://drasticstatic.github.io/taylordwraps-nextjs-preview/
+**Private source:** `drasticstatic/taylordwraps` (this repo)
 
 ---
 
@@ -37,6 +38,10 @@
 | v1.6 (current) | this build |
 | v1.2 / v1 archived | `archive/` in the deploy |
 | Next.js era | [taylordwraps-nextjs-preview](https://github.com/drasticstatic/taylordwraps-nextjs-preview) |
+
+## BUILD
+
+Sources are split (`src_head.html`, `src_body.html`, `src_script.html`); `build_repo.py` emits the multi-file site into `repo/`, `build_mono.py` emits a single-file bundle with assets inlined. `.bootstrap/bundle.json` in each GitHub lane points at a verified zip (SHA-256 checked) that the sync workflow unpacks.
 
 ---
 

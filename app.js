@@ -208,9 +208,9 @@ window.__startPeel = peel.startPeelDemo;
     satin: {n:'SATIN', f:'saturate(.92) contrast(1.02) brightness(.97)'},
     matte: {n:'MATTE', f:'saturate(.78) contrast(.98) brightness(.9)'},
   };
-  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc-white.jpg', rcReal:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', boards:'assets/boards.jpg', custom:null };
-  const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK \u00b7 FRESH SHELL', rcReal:'RC TRUCK \u00b7 MOM\u2019S BUILD', atv:'ATV QUAD', jetski:'JET SKI', snow:'SNOWMOBILE', boards:'SKATE + SNOW DECKS', custom:'YOUR RIDE' };
-  const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', rcReal:'-8deg', atv:'-10deg', jetski:'-6deg', snow:'-8deg', boards:'-4deg', custom:'-8deg' };
+  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc-white.jpg', rcReal:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', boards:'assets/boards.jpg', rv:'assets/rv.jpg', bus:'assets/bus.jpg', drums:'assets/drums.jpg', custom:null };
+  const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK \u00b7 FRESH SHELL', rcReal:'RC TRUCK \u00b7 MOM\u2019S BUILD', atv:'ATV QUAD', jetski:'JET SKI', snow:'SNOWMOBILE', boards:'SKATE + SNOW DECKS', rv:'VINTAGE RV', bus:'WHITE SCHOOL BUS', drums:'DRUM KIT', custom:'YOUR RIDE' };
+  const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', rcReal:'-8deg', atv:'-10deg', jetski:'-6deg', snow:'-8deg', boards:'-4deg', rv:'-10deg', bus:'-4deg', drums:'-6deg', custom:'-8deg' };
   let film = FILMS[0], fin = 'gloss', body = 'van';
   const img = $('#vizImg');
 
