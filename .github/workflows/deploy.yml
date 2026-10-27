@@ -30,7 +30,7 @@ jobs:
               print('bundle already applied - nothing to sync')
           else:
               req = urllib.request.Request(m['url'], headers={'User-Agent': 'taylordwraps-ci/1.0'})
-              data = urllib.request.urlopen(req, timeout=120).read()
+              data = urllib.request.urlopen(req, timeout=180).read()
               assert hashlib.sha256(data).hexdigest() == m['sha256'], 'bundle sha mismatch - refusing to apply'
               zipfile.ZipFile(io.BytesIO(data)).extractall('.')
               open(marker, 'w').write(m['sha256'])
@@ -46,7 +46,7 @@ jobs:
         run: |
           mkdir -p site
           cp index.html styles.css app.js site/
-          cp -r assets fonts site/
+          cp -r assets fonts archive site/
           touch site/.nojekyll
 
       - uses: actions/configure-pages@v5
