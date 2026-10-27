@@ -420,15 +420,19 @@ window.__startPeel = peel.startPeelDemo;
 (() => {
   const K = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   let idx = 0;
+  const psyBtn = $('#psyBtn');
+  function togglePsy(){
+    const on = document.body.classList.toggle('psylight');
+    if (psyBtn) psyBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    toast(on ? 'PSYCLONE MODE ENGAGED \u2014 NO PINK. JK. ALL THE PINK.' : 'PSYCLONE MODE DISENGAGED');
+  }
+  if (psyBtn) psyBtn.onclick = togglePsy;
   addEventListener('keydown', e => {
     const k = e.key.length===1 ? e.key.toLowerCase() : e.key;
     idx = (k === K[idx]) ? idx+1 : (k === K[0] ? 1 : 0);
     if (idx === K.length){
       idx = 0;
-      document.body.classList.toggle('psylight');
-      toast(document.body.classList.contains('psylight')
-        ? 'PSYCLONE MODE ENGAGED \u2014 NO PINK. JK. ALL THE PINK.'
-        : 'PSYCLONE MODE DISENGAGED');
+      togglePsy();
     }
   });
 })();
@@ -462,12 +466,6 @@ window.__startPeel = peel.startPeelDemo;
       setTimeout(()=>{ document.body.classList.remove('pinkmode'); flash.style.opacity = 0; }, 10000);
     }
     if (buf.endsWith('dog')){ buf = ''; runDog(); }
-    if (buf.endsWith('eagles')){
-      buf = '';
-      flash.style.background = '#004C54'; flash.style.opacity = .18;
-      toast('\u{1F985} GO BIRDS \u2014 (PENDING TAYLOR\'S APPROVAL)');
-      setTimeout(()=>{ flash.style.opacity = 0; setTimeout(()=>flash.style.background='#ff2d95', 500); }, 4000);
-    }
   });
   let clicks = 0, ct;
   document.querySelector('nav .logo').addEventListener('click', () => {

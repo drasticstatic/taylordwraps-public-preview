@@ -263,6 +263,11 @@ body.psylight{animation:psy 7s linear infinite}
 .tinput::placeholder{color:var(--faint);font-family:var(--mono);font-size:.75rem;letter-spacing:.12em}
 #dog{position:fixed;bottom:1.4rem;left:-90px;font-size:2.8rem;z-index:9400;pointer-events:none;transition:left 3.4s linear;transform:scaleX(-1);filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
 #flash{position:fixed;inset:0;z-index:9390;pointer-events:none;background:#ff2d95;opacity:0;transition:opacity .45s}
+/* ---------- v1.2: psyclone button ---------- */
+.psy-btn{border-color:rgba(168,85,247,.55);color:var(--a1)}
+.psy-btn:hover{border-color:var(--a1);box-shadow:0 6px 24px rgba(168,85,247,.25)}
+.psy-btn[aria-pressed="true"]{background:var(--grad);color:#0a0a0e;border-color:transparent;font-weight:700}
+
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
   .rv{opacity:1;transform:none}

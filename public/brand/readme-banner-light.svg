@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Taylor'd Wraps interactive preview banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4f2ee"/>
+      <stop offset="1" stop-color="#e7e3da"/>
+    </linearGradient>
+    <linearGradient id="hot" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset=".5" stop-color="#ec4899"/>
+      <stop offset="1" stop-color="#2dd4bf"/>
+    </linearGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .04 0"/></filter>
+  </defs>
+  <rect width="1200" height="300" fill="url(#bg)"/>
+  <rect width="1200" height="300" filter="url(#grain)"/>
+  <circle cx="1020" cy="80" r="150" fill="url(#hot)" opacity=".14"/>
+  <circle cx="130" cy="250" r="120" fill="url(#hot)" opacity=".10"/>
+  <text x="60" y="128" font-family="Anton, 'Arial Black', Impact, sans-serif" font-size="86" fill="#101017" letter-spacing="2">TAYLOR'D WRAPS</text>
+  <rect x="60" y="152" width="470" height="6" fill="url(#hot)"/>
+  <text x="60" y="205" font-family="Archivo, Helvetica, sans-serif" font-size="24" fill="#5c5c6c" letter-spacing="1">DESIGN &#183; PRINT &#183; INSTALL &#183; BRAND &#8212; WARMINSTER, PA</text>
+  <text x="60" y="248" font-family="JetBrains Mono, Menlo, monospace" font-size="17" fill="#2dd4bf" letter-spacing="4">INTERACTIVE PREVIEW &#183; DRASTICSTATIC LABS</text>
+  <g font-family="JetBrains Mono, Menlo, monospace" font-size="15" fill="#5c5c6c" letter-spacing="2">
+    <text x="880" y="205">&#8593;&#8593;&#8595;&#8595;&#8592;&#8594;&#8592;&#8594;BA</text>
+    <text x="880" y="235" fill="#a855f7">PSYCLONE MODE</text>
+  </g>
+</svg>
