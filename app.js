@@ -208,9 +208,9 @@ window.__startPeel = peel.startPeelDemo;
     satin: {n:'SATIN', f:'saturate(.92) contrast(1.02) brightness(.97)'},
     matte: {n:'MATTE', f:'saturate(.78) contrast(.98) brightness(.9)'},
   };
-  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc.jpg', custom:null };
-  const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK', custom:'YOUR RIDE' };
-  const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', custom:'-8deg' };
+  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', custom:null };
+  const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK', atv:'ATV QUAD', jetski:'JET SKI', snow:'SNOWMOBILE', custom:'YOUR RIDE' };
+  const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', atv:'-10deg', jetski:'-6deg', snow:'-8deg', custom:'-8deg' };
   let film = FILMS[0], fin = 'gloss', body = 'van';
   const img = $('#vizImg');
 
@@ -276,7 +276,7 @@ window.__startPeel = peel.startPeelDemo;
   function apply(){
     if (body==='custom' && !IMGS.custom){ fileInput.click(); return; }
     img.src = IMGS[body];
-    img.style.filter = `hue-rotate(${film.h}deg) saturate(${film.s}) ` + FINS[fin].f;
+    img.style.filter = `sepia(.35) hue-rotate(${film.h}deg) saturate(${film.s}) ` + FINS[fin].f;
     $('#bodyName').textContent = BODYN[body];
     $('#filmName').textContent = film.n;
     $('#finName').textContent = FINS[fin].n;
@@ -653,5 +653,112 @@ const $v = s => document.querySelector(s);
   document.getElementById('tbUndo').onclick = () => { strokes.pop(); strokes = strokes.filter(s => s.length); replay(); };
   document.getElementById('tbClear').onclick = () => { strokes = []; replay(); };
   window.__toolboxReady = true;
+})();
+
+
+/* ---------- v1.5: STEP 2.5 lettering appears the moment you type ---------- */
+(() => {
+  const inp = document.getElementById('vizTextInput'), vtxt = document.getElementById('vizText');
+  if(!inp || !vtxt) return;
+  inp.addEventListener('input', () => {
+    if(!vtxt.dataset.placed){
+      const stage = vtxt.parentElement;
+      const r = stage.getBoundingClientRect();
+      vtxt.style.left = Math.round(r.width * .38) + 'px';
+      vtxt.style.top = Math.round(r.height * .55) + 'px';
+      vtxt.style.opacity = '1';
+      vtxt.dataset.placed = '1';
+      const chip = document.querySelector('.viz-letter-chip');
+      if(chip) chip.textContent = 'LETTERING PLACED \u2014 DRAG TO MOVE IT';
+    }
+  }, true);
+})();
+
+/* ---------- v1.5: vinyl-peel CTA ---------- */
+(() => {
+  const hero = document.getElementById('hero');
+  if(!hero) return;
+  const cta = hero.querySelector('.btn');
+  if(cta) cta.classList.add('solid');
+})();
+
+/* ---------- v1.5: parallax + shader hero ---------- */
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const hero = document.getElementById('hero');
+  if(!hero) return;
+  const fx = document.createElement('div'); fx.id = 'shaderfx'; hero.style.position = 'relative'; hero.prepend(fx);
+  const media = hero.querySelector('img, canvas, .peel-wrap, .stage');
+  const copy = hero.querySelector('h1, .h-copy');
+  const layers = [];
+  if(media) layers.push([media, .12]);
+  if(copy) layers.push([copy, -.06]);
+  let tick = false;
+  addEventListener('scroll', () => {
+    if(tick) return; tick = true;
+    requestAnimationFrame(() => {
+      const y = scrollY;
+      layers.forEach(([el, d]) => { el.style.transform = 'translateY(' + (y * d) + 'px)'; });
+      tick = false;
+    });
+  }, { passive: true });
+})();
+
+/* ---------- v1.5: tool cursors + wiper sweep + mobile FAB ---------- */
+(() => {
+  const box = document.getElementById('toolbox');
+  if(!box) return;
+  const cur = document.createElement('div'); cur.className = 'tool-cursor'; document.body.appendChild(cur);
+  const ICONS = { squeegee: '\u{1F9F9}', eraser: '\u25CD', blade: '\u2702', heat: '\u2668' };
+  let active = null;
+  addEventListener('pointermove', e => {
+    const overUI = e.target.closest && e.target.closest('a,button,input,textarea,select,label,.tb-btn,.swatch,#toolbox,.drawer,.tm-modal');
+    if(active && ICONS[active] && !overUI){
+      cur.textContent = ICONS[active];
+      cur.style.display = 'block';
+      cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+      document.body.classList.add('toolmode');
+    } else {
+      cur.style.display = 'none';
+      document.body.classList.remove('toolmode');
+    }
+  });
+  const syncTool = () => {
+    const on = box.querySelector('.tb-btn.on');
+    active = on ? on.dataset.tool : (box.querySelector('.swatch.on') ? 'film' : null);
+    if(active === 'film'){ ICONS.film = '\u25C9'; }
+  };
+  box.addEventListener('click', e => { if(e.target.closest('.tb-btn, .swatch')) syncTool(); });
+  new MutationObserver(syncTool).observe(box, { subtree: true, attributes: true, attributeFilter: ['class'] });
+
+  // windshield-wiper sweep: double-click with squeegee clears the whole canvas in one arc
+  addEventListener('dblclick', () => {
+    if(active !== 'squeegee') return;
+    const cv = document.getElementById('trailCanvas'); if(!cv) return;
+    const ctx = cv.getContext('2d');
+    const W = cv.width, H = cv.height, T0 = performance.now(), DUR = 750;
+    const blade = document.createElement('div');
+    blade.style.cssText = 'position:fixed;top:0;bottom:0;left:0;width:120px;z-index:869;pointer-events:none;background:linear-gradient(90deg,rgba(45,212,191,.35),rgba(45,212,191,.06) 70%,transparent);transform:translateX(-130px)';
+    document.body.appendChild(blade);
+    (function sweep(now){
+      const t = Math.min((now - T0) / DUR, 1);
+      const x = -130 + t * (W + 260);
+      blade.style.transform = 'translateX(' + x + 'px) skewX(-8deg)';
+      ctx.save(); ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillRect(x, 0, 150, H); ctx.restore();
+      if(t < 1) requestAnimationFrame(sweep);
+      else { blade.remove(); if(window.__paintOps){ window.__paintOps.length = 0; window.__paintStrokes && (window.__paintStrokes().length = 0); } }
+    })(T0);
+  });
+
+  // mobile FAB
+  const fab = document.getElementById('tbFab');
+  if(fab) fab.onclick = () => box.classList.toggle('open');
+})();
+
+/* ---------- v1.5: arrival kit welcome doors (language copy already in markup) ---------- */
+(() => {
+  const en = document.getElementById('langEN'), es = document.getElementById('langES');
+  if(en) en.classList.add('doodle');
 })();
 

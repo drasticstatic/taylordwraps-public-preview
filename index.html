@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAYLOR'D WRAPS — Design. Print. Install. Brand.</title>
 <meta name="description" content="Custom is good. Taylor'd is better. Full custom advertisement wraps, color changes, fleet graphics, marine graphics and brand identity — Warminster, PA.">
-<link rel="stylesheet" href="styles.css?v=140">
+<link rel="stylesheet" href="styles.css?v=150">
 </head>
 <div id="loader"><div class="lgo">TAYLOR<span class="gradtxt">'D</span></div><div class="bar"><i id="lbar"></i></div><div class="pct" id="lpct">WARMING THE LAMINATOR — 0%</div></div>
 
 <nav>
-  <a class="logo" href="#hero" title="Taylor'd Wraps x drasticstatic labs"><b>TAYLOR<span class="gradtxt">'D</span></b> <span class="labs">× DRL</span></a>
+  <a class="logo" href="#hero" title="Taylor'd Wraps x drasticstatic labs"><b>TAYLOR<span class="gradtxt">'D</span></b> <span class="labs">× LABS</span></a>
   <div class="links">
-    <a href="#receipts">The Receipts</a><a href="#visualizer">Visualizer</a><a href="#arrival">Arrival Kit</a><a href="#quote">Start Yours</a><a href="#shop">The Shop</a>
+    <a href="#receipts" class="doodle">The Receipts</a><a href="#visualizer" class="doodle">Visualizer</a><a href="#arrival" class="doodle">Arrival Kit</a><a href="#quote" class="doodle">Start Yours</a><a href="#shop" class="doodle">The Shop</a>
   </div>
   <button class="btn gear-btn" id="gearBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="settingsDrawer" title="Settings — theme, PSYCLONE, film trail, wallet">⚙ SETTINGS</button>
 </nav>
@@ -33,6 +33,7 @@
   <div class="dr-row"><span>WALLET</span>
     <button class="btn" id="walletBtn">◈ Connect</button>
   </div>
+  <div class="dr-row"><span>TIME MACHINE<small>step back in time — the eras</small></span><a class="seg-b" href="time-machine.html" style="text-decoration:none">OPEN ▸</a></div>
   <p class="dr-note">POWER USERS: ↑↑↓↓←→←→BA STILL WORKS</p>
 </aside>
 
@@ -60,7 +61,7 @@
   </div>
 </header>
 
-<div class="ticker" aria-hidden="true"><div class="track" id="tickTrack"></div></div>
+<div class="ticker"><div class="track" id="tickTrack"></div><div class="t-meta">© 2026 TAYLOR'D WRAPS · DESIGN · PRINT · INSTALL · BRAND · HANDCRAFTED IN DRASTICSTATIC LABS · v1.5 SHOWCASE · ↑↓↑↓←→←→BA</div></div>
 
 <section class="section" id="manifesto">
   <div class="mani">
@@ -168,7 +169,7 @@
     <div class="ctrls">
       <div class="ctrl">
         <div class="lab"><span>STEP 1 — BODY</span><b id="bodyName">WORK VAN</b></div>
-        <div class="seg" id="bodySeg"><button class="on" data-body="van">WORK VAN</button><button data-body="car">SPORT COUPE</button><button data-body="mower">MOWER</button><button data-body="toolbox">TOOLBOX</button><button data-body="rc">RC TRUCK</button><button data-body="custom">YOUR RIDE ↗</button></div>
+        <div class="seg" id="bodySeg"><button class="on" data-body="van">WORK VAN</button><button data-body="car">SPORT COUPE</button><button data-body="mower">MOWER</button><button data-body="toolbox">TOOLBOX</button><button data-body="rc">RC TRUCK</button><button data-body="atv">ATV</button><button data-body="jetski">JET SKI</button><button data-body="snow">SNOWMOBILE</button><button data-body="custom">YOUR RIDE ↗</button></div>
       <div class="presets" id="presets"><button class="pre" id="uploadBtn">UPLOAD A PHOTO</button><span class="mono">WRAP ANYTHING · MOWERS · TOOLBOXES · RC · BOATS · COOLERS · CNC · YOU NAME IT</span></div>
       <input type="file" id="wrapFile" accept="image/*" style="display:none">
       </div>
@@ -313,13 +314,15 @@
 <section id="arrival">
   <div class="wrap">
     <div class="a-head">
-      <h2>THE ARRIVAL <span class="gradtxt">KIT</span></h2>
+      <div class="w-door"><span class="w-en">WELCOME</span><span class="w-es">BIENVENIDOS</span></div>
       <div class="seg" role="group" aria-label="Language / Idioma">
         <button class="seg-b on" id="langEN" aria-pressed="true">EN</button><button class="seg-b" id="langES" aria-pressed="false">ES</button>
       </div>
     </div>
-    <p class="a-sub" data-lang="en">Everything you need before the film ever touches your ride. Four steps, zero surprises.</p>
-    <p class="a-sub" data-lang="es" hidden>Todo lo que necesitas antes de que el vinilo toque tu carro. Cuatro pasos, cero sorpresas.</p>
+    <p class="a-sub" data-lang="en">This page greets you in your language — and the shop's promise reads the same in both: honest quotes, real timelines, film that outlives the hype.</p>
+    <p class="a-sub" data-lang="es" hidden>Esta página te saluda en tu idioma — y la promesa del taller se lee igual en ambos: presupuestos honestos, tiempos reales, vinilo que dura más que la moda.</p>
+    <p class="w-honest" data-lang="en">TRANSLATION IN REVIEW — SPOT SOMETHING OFF? TELL THE SHOP AND WE'LL FIX IT BEFORE THE VINYL PRINTS.</p>
+    <p class="w-honest" data-lang="es" hidden>TRADUCCIÓN EN REVISIÓN — ¿VES ALGO RARO? DÍSELO AL TALLER Y LO CORREGIMOS ANTES DE IMPRIMIR EL VINILO.</p>
     <div class="a-grid">
       <div class="a-card"><span class="num">01</span>
         <h3><span data-lang="en">BEFORE YOU ARRIVE</span><span data-lang="es" hidden>ANTES DE LLEGAR</span></h3>
@@ -364,11 +367,10 @@
   </div>
   <div class="f-bottom">
     <span>© 2026 TAYLOR'D WRAPS — DESIGN · PRINT · INSTALL · BRAND</span>
-    <span>HANDCRAFTED IN <i>DRASTICSTATIC LABS</i> · v1.4 SHOWCASE · ↑↑↓↓←→←→BA</span>
   </div>
 </footer>
 <div class="toast" id="toast"></div>
-<a class="tm-ribbon" id="tmBtn" href="time-machine.html" title="Step back in time">⏱ STEP BACK IN TIME</a>
+<button class="tb-fab" id="tbFab" aria-label="Vinyl toolbox">🧰</button>
 <div id="toolbox" role="toolbar" aria-label="Vinyl toolbox — paint tools" aria-orientation="vertical">
   <button class="tb-btn" data-tool="trail" aria-pressed="true"><i>✋</i>TRAIL</button>
   <button class="tb-btn" data-tool="squeegee" aria-pressed="false"><i>🧽</i>SQUEE</button>
@@ -389,4 +391,4 @@
   <button class="tb-btn" id="tbClear" aria-label="Clear all paint"><i>✕</i>CLEAR</button>
 </div>
 
-<script src="app.js?v=140" defer></script>
+<script src="app.js?v=150" defer></script>
