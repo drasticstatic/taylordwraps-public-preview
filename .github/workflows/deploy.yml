@@ -26,15 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Assemble site/
+      # The same two scripts run in the private repo's guardrails, so what was checked is what ships.
+      - name: Assemble site/ and check every local reference resolves
         run: |
-          set -euo pipefail
-          mkdir -p site
-          cp -- *.html styles.css app.js site/
-          for d in assets fonts archive shared; do [ -d "$d" ] && cp -r "$d" site/; done
-          touch site/.nojekyll
-          echo "files: $(find site -type f | wc -l)"
-          test -f site/404.html
+          sh scripts/assemble.sh site
+          node scripts/check-site.mjs site
 
       - uses: actions/configure-pages@v5
         with:
