@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wrap Origin v2 — provenance, a labs experiment</title>
+<meta name="description" content="Hash any asset in your browser, check it against the manifest, and attest to it with a wallet signature. No token, no chain write, no fee.">
+<link rel="stylesheet" href="styles.css?v=200"></head>
+<body>
+<script>try{if(localStorage.tw_theme==="light")document.body.classList.add("light")}catch(e){}</script>
+<main class="exp prov">
+  <span class="kicker">// LABS EXPERIMENT 03 — Wrap Origin v2</span>
+  <h1>PROVENANCE YOU CAN <span class="gradtxt">CHECK YOURSELF.</span></h1>
+  <p class="lead">Three steps, all in your browser. Hash a file. Compare it to the manifest this site shipped with. Sign a statement with your own wallet that says "this hash, this design, this moment." No token is minted, nothing is written to a chain, nothing costs anything. The statement is a signature you can hand to anyone, and anyone with the standard tools can check who signed it.</p>
+  <p class="honest">This is an experiment from drasticstatic labs. It proves a design existed and who vouched for it. It does not transfer ownership of anything, and it is not an NFT.</p>
+
+  <h2 class="kicker">// 1. HASH</h2>
+  <div class="cards">
+    <div class="card">
+      <b>A shipped asset</b>
+      <p>Pick one of the demo assets. The hash is computed here and compared to <code>assets/manifest.json</code>.</p>
+      <select id="pick" aria-label="Asset"></select>
+      <p class="hash" id="hashOut">—</p>
+      <p class="mono" id="hashCmp"></p>
+    </div>
+    <div class="card">
+      <b>Your own file</b>
+      <p>Drop any image or file. It never leaves your device; only the fingerprint is computed.</p>
+      <input type="file" id="file" aria-label="Your file">
+      <p class="hash" id="fileOut">—</p>
+    </div>
+  </div>
+
+  <h2 class="kicker">// 2. ATTEST</h2>
+  <div class="cards">
+    <div class="card">
+      <b>Sign the statement</b>
+      <p>Needs a wallet in your browser. You will be asked to sign a typed message (EIP-712) that names the hash, the design, and the time. Signing is free and sends nothing.</p>
+      <label class="mono">Design id<input id="designId" value="carshow:visualizer" aria-label="Design id"></label>
+      <label class="mono">Film<input id="filmId" value="psyclone" aria-label="Film id"></label>
+      <p><button class="btn solid" id="attest">SIGN WITH MY WALLET</button> <span class="mono" id="attestState"></span></p>
+      <canvas id="card" width="1200" height="630" hidden></canvas>
+      <p id="dl" hidden><a class="btn" id="dlJson" download="wrap-origin-certificate.json">DOWNLOAD JSON</a> <a class="btn" id="dlPng" download="wrap-origin-certificate.png">DOWNLOAD CARD</a></p>
+    </div>
+    <div class="card">
+      <b>What gets signed</b>
+      <pre class="mono" id="typed" style="white-space:pre-wrap;font-size:.66rem;color:var(--dim)">domain: Taylor'd Wraps Wrap Origin v1
+WrapOrigin { assetHash, designId, filmId, lane, issuedAt }</pre>
+      <p>The domain and type are fixed, so a certificate from here can be told apart from any other signature your wallet has ever made.</p>
+    </div>
+  </div>
+
+  <h2 class="kicker">// 3. VERIFY</h2>
+  <div class="cards">
+    <div class="card">
+      <b>Paste a certificate</b>
+      <textarea id="verifyIn" rows="6" placeholder='{"signer":"0x…","signature":"0x…","message":{…}}' aria-label="Certificate JSON"></textarea>
+      <p><button class="btn" id="verify">READ IT</button></p>
+      <p class="mono" id="verifyOut"></p>
+    </div>
+    <div class="card">
+      <b>Honest limits</b>
+      <p>This page reads the certificate back and recomputes any hash you give it. Recovering the signer from an EIP-712 signature needs a signing library this static page does not ship; any wallet console or block explorer's "verify signature" tool can do it with the domain, types, message and signature from the JSON.</p>
+    </div>
+  </div>
+  <a class="back" href="./">← BACK TO THE CAR SHOW</a> &nbsp; <a class="back" href="lattice.html">LATTICE →</a> &nbsp; <a class="back" href="roadmap.html">ROADMAP →</a>
+</main>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const hex = (buf) => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+  const sha = async (buf) => hex(await crypto.subtle.digest('SHA-256', buf));
+  let manifest = {}, current = { file: null, hash: null };
+  fetch('assets/manifest.json').then(r => r.json()).then(m => { manifest = m.assets || {}; const sel = $('#pick'); Object.keys(manifest).forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = k; sel.appendChild(o); }); sel.onchange(); }).catch(() => { $('#hashCmp').textContent = 'manifest unavailable offline'; });
+  $('#pick').onchange = async () => { const f = $('#pick').value; if (!f) return; $('#hashOut').textContent = 'hashing…'; const h = await sha(await (await fetch('assets/' + f)).arrayBuffer()); current = { file: f, hash: h }; $('#hashOut').textContent = h; const ok = manifest[f] === h; $('#hashCmp').innerHTML = ok ? '<span class="ok">✓ matches the manifest</span>' : '<span class="bad">✗ does not match the manifest (' + (manifest[f] || 'unlisted') + ')</span>'; };
+  $('#file').onchange = async (e) => { const f = e.target.files[0]; if (!f) return; $('#fileOut').textContent = 'hashing…'; const h = await sha(await f.arrayBuffer()); current = { file: f.name, hash: h }; $('#fileOut').textContent = h; };
+
+  const DOMAIN = { name: "Taylor'd Wraps Wrap Origin", version: '1' };
+  const TYPES = { EIP712Domain: [{ name: 'name', type: 'string' }, { name: 'version', type: 'string' }], WrapOrigin: [{ name: 'assetHash', type: 'string' }, { name: 'designId', type: 'string' }, { name: 'filmId', type: 'string' }, { name: 'lane', type: 'string' }, { name: 'issuedAt', type: 'string' }] };
+  $('#attest').onclick = async () => {
+    const st = $('#attestState');
+    if (!current.hash) { st.textContent = 'hash something first'; return; }
+    if (!window.ethereum) { st.textContent = 'no wallet in this browser; the demo wallet on the main page cannot sign'; return; }
+    try {
+      st.textContent = 'asking your wallet…';
+      const [signer] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const message = { assetHash: current.hash, designId: $('#designId').value || 'carshow:visualizer', filmId: $('#filmId').value || 'psyclone', lane: 'carshow', issuedAt: new Date().toISOString() };
+      const typed = { types: TYPES, primaryType: 'WrapOrigin', domain: DOMAIN, message };
+      const signature = await window.ethereum.request({ method: 'eth_signTypedData_v4', params: [signer, JSON.stringify(typed)] });
+      const cert = { standard: 'EIP-712', domain: DOMAIN, types: { WrapOrigin: TYPES.WrapOrigin }, primaryType: 'WrapOrigin', message, signer, signature, file: current.file };
+      const json = JSON.stringify(cert, null, 2);
+      $('#dlJson').href = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
+      drawCard(cert); $('#card').hidden = false; $('#dl').hidden = false; $('#dlPng').href = $('#card').toDataURL('image/png');
+      st.innerHTML = '<span class="ok">signed by ' + signer.slice(0, 6) + '…' + signer.slice(-4) + '</span>';
+    } catch (e) { st.textContent = 'your wallet declined, or something went wrong: ' + (e && e.message ? e.message.slice(0, 80) : e); }
+  };
+  function drawCard(c) {
+    const cv = $('#card'), x = cv.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 1200, 630); g.addColorStop(0, '#a855f7'); g.addColorStop(.5, '#ec4899'); g.addColorStop(1, '#2dd4bf');
+    x.fillStyle = '#0a0a0e'; x.fillRect(0, 0, 1200, 630); x.fillStyle = g; x.fillRect(0, 0, 1200, 14); x.fillRect(0, 616, 1200, 14);
+    x.fillStyle = '#ececf1'; x.font = '700 64px Anton, Impact, sans-serif'; x.fillText("WRAP ORIGIN", 60, 120);
+    x.font = '400 22px JetBrains Mono, Menlo, monospace'; x.fillStyle = '#9a9aa8';
+    const lines = ['asset  ' + (c.file || ''), 'sha256 ' + c.message.assetHash.slice(0, 32), '       ' + c.message.assetHash.slice(32), 'design ' + c.message.designId + '  film ' + c.message.filmId + '  lane ' + c.message.lane, 'issued ' + c.message.issuedAt, 'signer ' + c.signer, 'sig    ' + c.signature.slice(0, 40) + '…'];
+    lines.forEach((l, i) => x.fillText(l, 60, 190 + i * 44));
+    x.fillStyle = '#2dd4bf'; x.font = '400 18px JetBrains Mono, Menlo, monospace'; x.fillText("Taylor'd Wraps × drasticstatic labs · EIP-712 attestation · no token, no chain write, no fee", 60, 580);
+  }
+  $('#verify').onclick = async () => {
+    const out = $('#verifyOut');
+    try {
+      const c = JSON.parse($('#verifyIn').value);
+      const m = c.message || {};
+      let line = 'signer ' + (c.signer || '?') + ' · design ' + (m.designId || '?') + ' · film ' + (m.filmId || '?') + ' · issued ' + (m.issuedAt || '?') + ' · hash ' + (m.assetHash || '?').slice(0, 16) + '…';
+      if (m.assetHash && current.hash) line += current.hash === m.assetHash ? ' · <span class="ok">✓ matches the file you hashed above</span>' : ' · <span class="bad">✗ does not match the file you hashed above</span>';
+      out.innerHTML = line + '<br>signature ' + (c.signature || '?').slice(0, 24) + '… (recover the signer with any EIP-712 verify tool using the domain, types, message and signature)';
+    } catch (e) { out.textContent = "that isn't a certificate: " + e.message; }
+  };
+})();
+</script>
+</body></html>

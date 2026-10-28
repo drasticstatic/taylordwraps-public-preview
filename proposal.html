@@ -40,13 +40,13 @@ td.amt,th.amt{text-align:right;font-family:monospace}
     <label>Vehicle / Asset</label><input id="fAsset" placeholder="2024 Transit 350 — white">
     <label>Date</label><input id="fDate" type="date">
     <h2 style="margin-top:20px">SERVICES</h2>
-    <div class="svc"><input type="checkbox" data-n="Full color-change wrap" data-p="3200" checked><span>Full color-change wrap</span><input type="number" value="3200"></div>
-    <div class="svc"><input type="checkbox" data-n="Chrome delete" data-p="650"><span>Chrome delete</span><input type="number" value="650"></div>
-    <div class="svc"><input type="checkbox" data-n="Fleet graphics / lettering" data-p="900"><span>Fleet graphics / lettering</span><input type="number" value="900"></div>
-    <div class="svc"><input type="checkbox" data-n="Window tint" data-p="450"><span>Window tint</span><input type="number" value="450"></div>
-    <div class="svc"><input type="checkbox" data-n="Paint protection film" data-p="1800"><span>Paint protection film</span><input type="number" value="1800"></div>
-    <div class="svc"><input type="checkbox" data-n="Marine / boat wrap" data-p="2400"><span>Marine / boat wrap</span><input type="number" value="2400"></div>
-    <div class="svc"><input type="checkbox" data-n="Custom design proof" data-p="250" checked><span>Custom design proof</span><input type="number" value="250"></div>
+    <div class="svc"><input type="checkbox" data-n="Full color-change wrap" data-p="" checked><span>Full color-change wrap</span><input type="number" value="" placeholder="$" min="0" step="25"></div>
+    <div class="svc"><input type="checkbox" data-n="Chrome delete" data-p=""><span>Chrome delete</span><input type="number" value="" placeholder="$" min="0" step="25"></div>
+    <div class="svc"><input type="checkbox" data-n="Fleet graphics / lettering" data-p=""><span>Fleet graphics / lettering</span><input type="number" value="" placeholder="$" min="0" step="25"></div>
+    <div class="svc"><input type="checkbox" data-n="Window tint" data-p=""><span>Window tint</span><input type="number" value="" placeholder="$" min="0" step="25"></div>
+    <div class="svc"><input type="checkbox" data-n="Paint protection film" data-p=""><span>Paint protection film</span><input type="number" value="" placeholder="$" min="0" step="25"></div>
+    <div class="svc"><input type="checkbox" data-n="Marine / boat wrap" data-p=""><span>Marine / boat wrap</span><input type="number" value="" placeholder="$" min="0" step="25"></div>
+    <div class="svc"><input type="checkbox" data-n="Custom design proof" data-p="" checked><span>Custom design proof</span><input type="number" value="" placeholder="$" min="0" step="25"></div>
     <label>Notes</label><textarea id="fNotes" rows="3" placeholder="Film brand, finish, timeline…"></textarea>
     <label>Valid for (days)</label><input id="fValid" type="number" value="30">
     <button class="go" onclick="window.print()">🖨 PRINT / SAVE PDF</button>

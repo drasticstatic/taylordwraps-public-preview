@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/drasticstatic/taylordwraps/shared/wrap-spec.schema.json",
+  "title": "Taylor'd wrap-spec",
+  "description": "A visualizer build that travels between THE CAR SHOW and THE CARPORT as a URL fragment: #build=<base64url(JSON)>. Both lanes decode it on load and open the visualizer in that state. No personal data, no prices, no payment fields — ever.",
+  "type": "object",
+  "required": ["v", "body", "film", "finish"],
+  "additionalProperties": false,
+  "properties": {
+    "v": { "const": 1, "description": "spec version" },
+    "body": {
+      "type": "string",
+      "enum": ["van", "car", "mower", "toolbox", "rc", "rcReal", "rcOld", "boards", "rv", "bus", "drums", "atv", "jetski", "snow", "custom"],
+      "description": "preset body id (custom = visitor upload; the image itself never travels)"
+    },
+    "film": {
+      "type": "string",
+      "enum": ["psyclone", "ultraviolet", "acid", "tangerine", "lime", "teal", "glacier", "infrared"],
+      "description": "film id — SPECTRA-PSYCLONE, ULTRAVIOLET RUSH, ACID BLOOM, TANGERINE DREAM, LIME RIOT, TEAL TEMPEST, GLACIER SHIFT, INFRARED GHOST"
+    },
+    "finish": { "type": "string", "enum": ["gloss", "satin", "matte"] },
+    "text": { "type": "string", "maxLength": 18, "description": "custom lettering" },
+    "textPos": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "description": "lettering anchor as fractions of the stage"
+    },
+    "from": { "type": "string", "enum": ["carshow", "carport"], "description": "which lane minted the link" }
+  }
+}

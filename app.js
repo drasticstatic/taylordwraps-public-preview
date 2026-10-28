@@ -194,21 +194,21 @@ window.__startPeel = peel.startPeelDemo;
 /* ---------- visualizer ---------- */
 (() => {
   const FILMS = [
-    {n:'SPECTRA-PSYCLONE', h:0,   s:1,    css:'linear-gradient(120deg,#a855f7,#ec4899,#2dd4bf)'},
-    {n:'ULTRAVIOLET RUSH', h:-50, s:1.1,  css:'linear-gradient(120deg,#6366f1,#a855f7,#3b82f6)'},
-    {n:'ACID BLOOM',       h:45,  s:1.2,  css:'linear-gradient(120deg,#ec4899,#f43f5e,#f97316)'},
-    {n:'TANGERINE DREAM',  h:95,  s:1.15, css:'linear-gradient(120deg,#f97316,#fbbf24,#ef4444)'},
-    {n:'LIME RIOT',        h:140, s:1.2,  css:'linear-gradient(120deg,#facc15,#84cc16,#22c55e)'},
-    {n:'TEAL TEMPEST',     h:185, s:1.1,  css:'linear-gradient(120deg,#22c55e,#2dd4bf,#0ea5e9)'},
-    {n:'GLACIER SHIFT',    h:230, s:.9,   css:'linear-gradient(120deg,#0ea5e9,#64748b,#e2e8f0)'},
-    {n:'INFRARED GHOST',   h:300, s:1.25, css:'linear-gradient(120deg,#ef4444,#a855f7,#6366f1)'},
+    {id:'psyclone', n:'SPECTRA-PSYCLONE', h:0,   s:1,    H:275, S:85, css:'linear-gradient(120deg,#a855f7,#ec4899,#2dd4bf)'},
+    {id:'ultraviolet', n:'ULTRAVIOLET RUSH', h:-50, s:1.1,  H:245, S:80, css:'linear-gradient(120deg,#6366f1,#a855f7,#3b82f6)'},
+    {id:'acid', n:'ACID BLOOM',       h:45,  s:1.2,  H:340, S:85, css:'linear-gradient(120deg,#ec4899,#f43f5e,#f97316)'},
+    {id:'tangerine', n:'TANGERINE DREAM',  h:95,  s:1.15, H:25,  S:90, css:'linear-gradient(120deg,#f97316,#fbbf24,#ef4444)'},
+    {id:'lime', n:'LIME RIOT',        h:140, s:1.2,  H:85,  S:85, css:'linear-gradient(120deg,#facc15,#84cc16,#22c55e)'},
+    {id:'teal', n:'TEAL TEMPEST',     h:185, s:1.1,  H:175, S:75, css:'linear-gradient(120deg,#22c55e,#2dd4bf,#0ea5e9)'},
+    {id:'glacier', n:'GLACIER SHIFT',    h:230, s:.9,   H:205, S:45, css:'linear-gradient(120deg,#0ea5e9,#64748b,#e2e8f0)'},
+    {id:'infrared', n:'INFRARED GHOST',   h:300, s:1.25, H:355, S:80, css:'linear-gradient(120deg,#ef4444,#a855f7,#6366f1)'},
   ];
   const FINS = {
     gloss: {n:'GLOSS', f:'saturate(1.15) contrast(1.07) brightness(1.02)'},
     satin: {n:'SATIN', f:'saturate(.92) contrast(1.02) brightness(.97)'},
     matte: {n:'MATTE', f:'saturate(.78) contrast(.98) brightness(.9)'},
   };
-  const IMGS = { van:'assets/van_after.jpg', car:'assets/car_after.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc-white.jpg', rcReal:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', boards:'assets/boards.jpg', rv:'assets/rv.jpg', bus:'assets/bus.jpg', drums:'assets/drums.jpg', rcOld:'assets/rc-old.jpg', custom:null };
+  const IMGS = { van:'assets/van_before.jpg', car:'assets/car_before.jpg', mower:'assets/mower.jpg', toolbox:'assets/toolbox.jpg', rc:'assets/rc-white.jpg', rcReal:'assets/rc.jpg', atv:'assets/atv.jpg', jetski:'assets/jetski.jpg', snow:'assets/snowmobile.jpg', boards:'assets/boards.jpg', rv:'assets/rv.jpg', bus:'assets/bus.jpg', drums:'assets/drums.jpg', rcOld:'assets/rc-old.jpg', custom:null };
   const BODYN = { van:'WORK VAN', car:'SPORT COUPE', mower:'ZERO-TURN MOWER', toolbox:'TOOL CHEST', rc:'RC TRUCK \u00b7 FRESH SHELL', rcReal:'RC TRUCK \u00b7 MOM\u2019S BUILD', atv:'ATV QUAD', jetski:'JET SKI', snow:'SNOWMOBILE', boards:'SKATE + SNOW DECKS', rv:'VINTAGE RV', bus:'WHITE SCHOOL BUS', drums:'DRUM KIT', rcOld:'RC CRAWLER \u00b7 CLASSIC', custom:'YOUR RIDE' };
   const SKEW = { van:'-14deg', car:'-8deg', mower:'-6deg', toolbox:'-10deg', rc:'-8deg', rcReal:'-8deg', atv:'-10deg', jetski:'-6deg', snow:'-8deg', boards:'-4deg', rv:'-10deg', bus:'-4deg', drums:'-6deg', rcOld:'-8deg', custom:'-8deg' };
   let film = FILMS[0], fin = 'gloss', body = 'van';
@@ -228,6 +228,7 @@ window.__startPeel = peel.startPeelDemo;
   $$('#bodySeg button').forEach(b => b.onclick = () => {
     body = b.dataset.body;
     $$('#bodySeg button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    if (body==='custom' && !IMGS.custom){ fileInput.click(); }
     apply();
   });
   $$('#finSeg button').forEach(b => b.onclick = () => {
@@ -261,6 +262,7 @@ window.__startPeel = peel.startPeelDemo;
   const fileInput = $('#wrapFile'), stageEl = document.querySelector('.viz .stage');
   function loadCustom(file){
     if (!file || !file.type.startsWith('image/')) return toast('THAT AINT AN IMAGE, CHIEF');
+    if (IMGS.custom) { try { URL.revokeObjectURL(IMGS.custom); } catch(e){} }
     IMGS.custom = URL.createObjectURL(file);
     body = 'custom';
     $$('#bodySeg button').forEach(x=>x.classList.toggle('on', x.dataset.body==='custom'));
@@ -274,7 +276,7 @@ window.__startPeel = peel.startPeelDemo;
   stageEl.addEventListener('drop', e => loadCustom(e.dataTransfer.files[0]));
 
   function apply(){
-    if (body==='custom' && !IMGS.custom){ fileInput.click(); return; }
+    if (body==='custom' && !IMGS.custom){ return; } // no image yet — the YOUR RIDE button opens the picker; cancelling must not loop
     img.src = IMGS[body];
     img.style.filter = `sepia(.35) hue-rotate(${film.h}deg) saturate(${film.s}) ` + FINS[fin].f;
     $('#bodyName').textContent = BODYN[body];
@@ -287,25 +289,63 @@ window.__startPeel = peel.startPeelDemo;
   }
   window.__vizState = () => ({ body, film, fin, FINS });
 
-  $('#vizSend').addEventListener('click', () => {
-    // prefill the funnel with the visualizer's choices
-    pick('body',  body==='van' ? 'Work Van / Transit' : 'Car / Coupe');
-    pick('service', body==='van' ? 'Full Custom Wrap' : 'Color Change');
-    pick('film', film.n==='ULTRAVIOLET RUSH'||film.n==='GLACIER SHIFT' ? 'Satin / Matte' : 'Color-Shift / Iridescent');
-    toast('BUILD PRELOADED INTO THE WORK ORDER \u2193');
-  });
-  function pick(key, val){
-    const box = document.querySelector('.opts[data-key="'+key+'"]');
-    if (!box) return;
-    [...box.querySelectorAll('.opt')].forEach(o =>
-      o.classList.toggle('on', o.dataset.v === val));
+  // ---- the portal: a build travels between THE CAR SHOW and THE CARPORT as #build=<base64url JSON> (shared/wrap-spec.schema.json)
+  const CARPORT = 'https://drasticstatic.github.io/taylordwraps-nextjs-preview/';
+  const b64u = {
+    enc: s => btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''),
+    dec: s => decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/') + '==='.slice((s.length + 3) % 4)))),
+  };
+  function buildSpec(){
+    const t = ($('#vizTextInput').value || '').trim().slice(0, 18);
+    const j = { v: 1, body: body === 'custom' ? 'van' : body, film: film.id, finish: fin, from: 'carshow' };
+    if (t) j.text = t;
+    return j;
   }
+  function applySpec(j){
+    if (!j || j.v !== 1) return false;
+    const f = FILMS.find(x => x.id === j.film);
+    if (j.body && j.body !== 'custom' && IMGS[j.body] !== undefined) body = j.body;
+    if (f) film = f;
+    if (FINS[j.finish]) fin = j.finish;
+    $$('#bodySeg button').forEach(x => x.classList.toggle('on', x.dataset.body === body));
+    $$('#swatches .sw').forEach((x, i) => x.classList.toggle('on', FILMS[i] === film));
+    $$('#finSeg button').forEach(x => x.classList.toggle('on', x.dataset.fin === fin));
+    if (typeof j.text === 'string') { const inp = $('#vizTextInput'); inp.value = j.text.slice(0, 18); inp.dispatchEvent(new Event('input')); }
+    apply();
+    return true;
+  }
+  function fromHash(){
+    const m = /(?:^|[#&])build=([A-Za-z0-9_-]+)/.exec(location.hash);
+    if (!m) return;
+    try { if (applySpec(JSON.parse(b64u.dec(m[1])))) { document.getElementById('visualizer').scrollIntoView(); toast('BUILD ARRIVED — WELCOME TO THE CAR SHOW'); } } catch (e) { /* not a build link */ }
+  }
+  const door = document.createElement('a');
+  door.className = 'btn'; door.id = 'vizCarport'; door.target = '_blank'; door.rel = 'noopener'; door.textContent = 'OPEN IN THE CARPORT ↗';
+  const refreshDoor = () => { door.href = CARPORT + '#visualizer&build=' + b64u.enc(JSON.stringify(buildSpec())); };
+  refreshDoor();
+  $('#vizSend').insertAdjacentElement('afterend', door);
+  ['click', 'input', 'change'].forEach(ev => document.getElementById('visualizer').addEventListener(ev, refreshDoor, true));
+  fromHash(); addEventListener('hashchange', fromHash);
+
+  $('#vizSend').addEventListener('click', () => {
+    // prefill the funnel's real state (not just CSS) with the visualizer's choices
+    const BODY_MAP = { van:'Work Van / Transit', bus:'Box Truck', rv:'Box Truck', car:'Car / Coupe', jetski:'Boat / Marine', toolbox:'Trailer / Fleet' };
+    const b = BODY_MAP[body] || 'Something Else';
+    const letter = ($('#vizTextInput').value || '').trim();
+    const svc = (body==='van'||body==='bus'||body==='rv') ? 'Full Custom Wrap' : (letter ? 'Lettering / Decals' : 'Color Change');
+    const pearl = /PSYCLONE/.test(film.n);
+    const f = pearl ? 'Color-Shift / Iridescent' : (fin==='gloss' ? 'Gloss Laminate' : 'Satin / Matte');
+    const spec = 'VISUALIZER BUILD: ' + BODYN[body] + ' / ' + film.n + ' \u00B7 ' + FINS[fin].n + (letter ? ' \u00B7 lettering "' + letter + '"' : '');
+    if (window.__qPrefill) window.__qPrefill({ body: b, service: svc, film: f, spec });
+    toast('BUILD LOADED INTO THE WORK ORDER \u2193');
+  });
 })();
 
 /* ---------- quote funnel ---------- */
 (() => {
-  const state = {body:null, service:null, film:null, name:'', contact:'', notes:''};
-  let step = 1;
+  const state = {body:null, service:null, film:null, name:'', contact:'', notes:'', spec:''};
+  let step = 1, ticketNo = null;
+  try { ticketNo = sessionStorage.getItem('tw_ticket'); } catch(e){}
   const qs = $$('.q'), steps = $$('.funnel .railq .step');
   const next = $('#qNext'), back = $('#qBack');
 
@@ -324,9 +364,12 @@ window.__startPeel = peel.startPeelDemo;
     step = s;
     qs.forEach(q => q.classList.toggle('on', +q.dataset.q === s));
     steps.forEach(st => st.classList.toggle('on', +st.dataset.s === Math.min(s,4)));
-    $('#qProgress').textContent = s >= 4 ? 'STEP 4 / 4' : 'STEP ' + s + ' / 4';
+    $('#qProgress').textContent = s === 5 ? 'TICKET READY' : 'STEP ' + Math.min(s,4) + ' / 4';
     back.style.visibility = s === 1 ? 'hidden' : 'visible';
-    next.textContent = s === 4 ? 'Build Work Order \u2197' : 'Next \u2192';
+    next.hidden = s === 5;
+    const label = s === 4 ? 'Build Work Order \u2197' : 'Next \u2192';
+    const msg = next.querySelector('.peel-msg');
+    next.textContent = label; if (msg) next.appendChild(msg);
     if (s === 5) buildTicket();
     $('.funnel').scrollIntoView({behavior: REDUCED ? 'auto' : 'smooth', block:'nearest'});
   }
@@ -338,22 +381,38 @@ window.__startPeel = peel.startPeelDemo;
     return null;
   }
   next.onclick = () => {
+    if (step >= 5) return;
     const m = missing();
     if (m) return toast(m);
     go(step === 4 ? 5 : step + 1);
   };
+  // called by the Visualizer's SEND THIS BUILD: real state, real highlights, jump to contact
+  window.__qPrefill = ({body, service, film, spec}) => {
+    state.body = body; state.service = service; state.film = film; state.spec = spec || '';
+    const set = (key, val) => $$('.opts[data-key="'+key+'"] .opt').forEach(o => o.classList.toggle('on', o.dataset.v === val));
+    set('body', body); set('service', service); set('film', film);
+    const notes = $('#qNotes');
+    if (spec && !notes.value.includes('VISUALIZER BUILD')) { notes.value = (notes.value ? notes.value + '\n' : '') + spec; state.notes = notes.value; }
+    go(4);
+  };
   back.onclick = () => go(Math.max(1, step - 1));
 
   function buildTicket(){
-    const no = '#TW-' + String(Math.floor(1000 + Math.random()*9000));
+    if (!ticketNo) {
+      const a = new Uint16Array(1); (crypto.getRandomValues ? crypto.getRandomValues(a) : (a[0] = Math.random()*65535));
+      ticketNo = '#TW-' + String(1000 + (a[0] % 9000));
+      try { sessionStorage.setItem('tw_ticket', ticketNo); } catch(e){}
+    }
+    const no = ticketNo;
     $('#tktNo').textContent = no;
     $('#tBody').textContent = state.body;
     $('#tService').textContent = state.service;
     $('#tFilm').textContent = state.film;
-    $('#tContact').textContent = state.contact;
+    $('#tContact').textContent = (state.name.trim() ? state.name.trim() + ' \u00B7 ' : '') + state.contact;
     $('#tNotes').textContent = state.notes.trim() || '\u2014';
     const lines = [
       'WORK ORDER ' + no,
+      'Name: ' + (state.name.trim() || 'n/a'),
       'Body: ' + state.body,
       'Service: ' + state.service,
       'Film: ' + state.film,
@@ -369,7 +428,8 @@ window.__startPeel = peel.startPeelDemo;
       navigator.clipboard.writeText(lines).then(()=>toast('SPEC COPIED \u2713'), ()=>toast('COPY BLOCKED \u2014 SELECT MANUALLY'));
     };
     $('#resetQ').onclick = () => {
-      Object.keys(state).forEach(k => state[k]=null); state.name=state.contact=state.notes='';
+      Object.keys(state).forEach(k => state[k]=null); state.name=state.contact=state.notes=state.spec='';
+      ticketNo = null; try { sessionStorage.removeItem('tw_ticket'); } catch(e){}
       $$('.opt.on').forEach(o=>o.classList.remove('on'));
       ['qName','qContact','qNotes'].forEach(id => $('#'+id).value='');
       go(1);
@@ -423,12 +483,14 @@ window.__startPeel = peel.startPeelDemo;
   let idx = 0;
   const psyBtn = $('#psyBtn');
   function togglePsy(){
-    const on = document.body.classList.toggle('psylight');
+    const on = document.documentElement.classList.toggle('psylight');
+    try { localStorage.tw_psy = on ? 'on' : 'off'; } catch(e){}
     if (psyBtn) psyBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
     toast(on ? 'PSYCLONE MODE ENGAGED \u2014 NO PINK. JK. ALL THE PINK.' : 'PSYCLONE MODE DISENGAGED');
   }
   if (psyBtn) psyBtn.onclick = togglePsy;
   addEventListener('keydown', e => {
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || '')) return;
     const k = e.key.length===1 ? e.key.toLowerCase() : e.key;
     idx = (k === K[idx]) ? idx+1 : (k === K[0] ? 1 : 0);
     if (idx === K.length){
@@ -476,10 +538,30 @@ window.__startPeel = peel.startPeelDemo;
   });
 })();
 
-/* ---------- hashes (injected at build) ---------- */
+/* ---------- Wrap Origin hashes — computed in YOUR browser, checked against assets/manifest.json ---------- */
 (() => {
-  const H = {"van": "c7e708cdee63abfbbbf482d8fdc759c0c4c2e5326175b95154294b87acf5d733", "car": "c8d2e3c03de7438c7c40a6f7859509b316d38b1144308cf7c2ebee7a40d7c738", "mack": "89d9aebfbcc464f11b7ae0b58eb210ffb882665a000e9b3d978bc00b351e4fde", "boat": "dfb8ea48d3a99fd80c319a757ff5598861e6ab99df0adb0740cf28cdfa2b2e8a", "livery": "6d63f7aeaf26f3f19eab62efac2693c825a07909390a64901d63f0652cc09c77", "truck": "ea2b06bc17e438910ade0f4a5447b08048c021f6dc01922a9ff4f0104a89a69d"};
-  $$('[data-hash]').forEach(el => { el.textContent = (H[el.dataset.hash]||'').slice(0,16) + '\u2026'; });
+  const FILES = { van:'van_after.jpg', car:'car_after.jpg' }; // the finished assets; case files 003-006 await Taylor's photos
+  const els = $$('[data-hash]');
+  els.forEach(el => { el.textContent = FILES[el.dataset.hash] ? 'hashing\u2026' : 'PHOTO PENDING'; });
+  if (!window.crypto || !crypto.subtle || !window.fetch) return;
+  const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+  fetch('assets/manifest.json').then(r => r.ok ? r.json() : null).catch(() => null).then(async man => {
+    for (const key of Object.keys(FILES)) {
+      const file = FILES[key];
+      try {
+        const buf = await (await fetch('assets/' + file)).arrayBuffer();
+        const h = hex(await crypto.subtle.digest('SHA-256', buf));
+        const expected = man && man.assets && man.assets[file];
+        const ok = expected ? (expected === h) : null;
+        $$('[data-hash="' + key + '"]').forEach(el => {
+          el.textContent = h.slice(0,16) + '\u2026' + (ok === true ? ' \u2713 VERIFIED' : ok === false ? ' \u2717 MISMATCH' : '');
+          el.title = 'SHA-256 ' + h + (expected ? '\nmanifest: ' + expected : '') + '\nclick to copy';
+          el.style.cursor = 'copy';
+          el.onclick = () => navigator.clipboard && navigator.clipboard.writeText(h).then(() => toast('FULL HASH COPIED \u2713'));
+        });
+      } catch(e) { $$('[data-hash="' + key + '"]').forEach(el => el.textContent = 'hash unavailable offline'); }
+    }
+  });
 })();
 
 /* ---------- boot ---------- */
@@ -831,9 +913,10 @@ const $v = s => document.querySelector(s);
     // film layer
     const fl = document.createElement('canvas'); fl.width = cw; fl.height = ch;
     const fx = fl.getContext('2d');
-    const hue = st.film.h, sat = Math.max(45, Math.min(92, st.film.s));
+    // absolute hue + saturation % per film (the old h/s were hue-rotate offsets over a sepia base)
+    const hue = (st.film.H != null ? st.film.H : (40 + st.film.h + 360) % 360), sat = st.film.S || 80;
     const pearl = ((st.film.n || '') + '').toUpperCase().indexOf('PSYCLONE') > -1;
-    const sp1 = pearl ? 90 : 34, sp2 = pearl ? 210 : 326;
+    const sp1 = pearl ? 60 : 34, sp2 = pearl ? 255 : 326;
     const grad = fx.createLinearGradient(0, 0, cw, ch);
     grad.addColorStop(0, 'hsl(' + hue + ' ' + sat + '% 58%)');
     grad.addColorStop(.45, 'hsl(' + ((hue+sp1)%360) + ' ' + sat + '% ' + (pearl ? 40 : 44) + '%)');

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "generated": "2026-10-28",
+  "algorithm": "SHA-256",
+  "note": "Hashes of the demo imagery shipped in both lanes. Recomputed in the browser by the Wrap Origin certificates. Placeholder visuals are AI-generated stand-ins unless noted; mom's RC truck (rc.jpg) is a real photo used with permission.",
+  "assets": {
+    "atv.jpg": "a17297d47730c8fc79b5319346bf9050fe36c868d952c55986725d5197acdc8e",
+    "boards.jpg": "9332515dd95202c72c18724541dbb3ac80af2f29c1681d346e98009bffa4a1f6",
+    "bus.jpg": "a040e6472dd1e7b64fc7c1e3841c59f804979893556bc091a8e6e9768b6f1946",
+    "car_after.jpg": "0e555e4d6da1da6691ffba37914be91f7f6f3b205e76654230fab75f3febdeb5",
+    "car_before.jpg": "c8d2e3c03de7438c7c40a6f7859509b316d38b1144308cf7c2ebee7a40d7c738",
+    "drums.jpg": "da87342d3497c8b8983d6169764b55334ca425cdf881fb675e4b336cc1e1f0ae",
+    "jetski.jpg": "165fb98dfc2de4f291be7595d9ee0ab51c42f3a6cbda09d71c48121071de41e7",
+    "mower.jpg": "2fc18f72adccf4b7ec19859801176f213397ec2aed74189feef8cc1b1456c010",
+    "rc-old.jpg": "7c1bd7e535d2d8938829a8329b553268267caa8a86ce7b017d5f393a6d9d44bb",
+    "rc-white.jpg": "a3982ca77ef74f410d109ca03c54cab6eed826368ace4e51a8c11de567cacdd8",
+    "rc.jpg": "e6876ee401716297e30d484ac2fda712fa4c36a4f0a1eab5a473ec15e397da7e",
+    "rv.jpg": "129dc19c0af4c558bf2a0d610eb81a82e06a07c11ea869d192e05e210bbcee4e",
+    "snowmobile.jpg": "3dabf0ae313dbbfe8e584f03e9b68aaa35d68658c348bdd749697d172ae2b3c7",
+    "toolbox.jpg": "d5443a81f91692da0fdd1bcb860d4ea2973a0633de83e306028d67fe0d0c26cf",
+    "van_after.jpg": "4b40ee2bf36ab23d8a95b8c840f911e1b52668be63700b6585057eafe565cf81",
+    "van_before.jpg": "c7e708cdee63abfbbbf482d8fdc759c0c4c2e5326175b95154294b87acf5d733"
+  }
+}

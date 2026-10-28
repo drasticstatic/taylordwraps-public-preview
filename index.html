@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TAYLOR'D WRAPS — Design. Print. Install. Brand.</title>
-<meta name="description" content="Custom is good. Taylor'd is better. Full custom advertisement wraps, color changes, fleet graphics, marine graphics and brand identity — Warminster, PA.">
-<link rel="stylesheet" href="styles.css?v=170">
+<title>THE CAR SHOW — Taylor'd Wraps arcade. Design. Print. Install. Brand.</title>
+<meta name="description" content="THE CAR SHOW: the hand-built arcade next door to the Taylor'd Wraps carport. The Peel, the wrap-anything visualizer, the vinyl toolbox, three games, and the labs' experiments. Warminster, PA.">
+<link rel="stylesheet" href="styles.css?v=200">
 </head>
-<script>try{if(localStorage.tw_theme==="light")document.body.classList.add("light")}catch(e){}</script>
+<body>
+<script>try{var _t=localStorage.tw_theme;if(_t==="light")document.body.classList.add("light");if(localStorage.tw_psy==="on")document.documentElement.classList.add("psylight")}catch(e){}</script>
 <div id="loader"><div class="lgo">TAYLOR<span class="gradtxt">'D</span></div><div class="bar"><i id="lbar"></i></div><div class="pct" id="lpct">WARMING THE LAMINATOR — 0%</div></div>
 
 <nav>
-  <a class="logo" href="#hero" title="Taylor'd Wraps x drasticstatic labs"><b>TAYLOR<span class="gradtxt">'D</span></b> <span class="labs">× LABS</span></a>
+  <a class="logo" href="#hero" title="Taylor'd Wraps x drasticstatic labs"><b>TAYLOR<span class="gradtxt">'D</span></b> <span class="labs">THE CAR SHOW</span></a>
   <div class="links">
-    <a href="#receipts" class="doodle">The Receipts</a><a href="#visualizer" class="doodle">Visualizer</a><a href="#arrival" class="doodle">Arrival Kit</a><a href="#quote" class="doodle">Start Yours</a><a href="#shop" class="doodle">The Shop</a><a href="404.html">LOST?</a>
+    <a href="#receipts" class="doodle">The Receipts</a><a href="#visualizer" class="doodle">Visualizer</a><a href="#arrival" class="doodle">Arrival Kit</a><a href="#quote" class="doodle">Start Yours</a><a href="#shop" class="doodle">The Shop</a><a href="#arcade" class="doodle">Arcade</a><a href="https://drasticstatic.github.io/taylordwraps-nextjs-preview/" class="carport-link" title="The Carport — the Next.js site next door">Carport ↗</a><a href="404.html">LOST?</a>
   </div>
   <button class="btn gear-btn" id="gearBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="settingsDrawer" title="Settings — theme, PSYCLONE, film trail, wallet">⚙ SETTINGS</button>
 </nav>
@@ -43,12 +44,13 @@
   <div class="bgfx"></div>
   <div class="hero-grid">
     <div class="hero-copy">
-      <span class="kicker">// Warminster, PA — Vinyl Transformation Studio</span>
+      <span class="kicker">// THE CAR SHOW — Taylor'd Wraps arcade · Warminster, PA</span>
       <h1><span class="row">CUSTOM IS</span><span class="row">GOOD.</span><span class="row gradtxt">TAYLOR'D</span><span class="row outline">IS BETTER.</span></h1>
       <p>Food trucks. Work vans. The whole damn fleet. Full custom wraps, color changes, fleet graphics and marine work — designed, printed and installed under one roof since 2016.</p>
       <div class="hero-ctas">
         <a class="btn solid" href="#quote">Start Your Transformation ↗</a>
         <a class="btn" href="#receipts">See The Receipts</a>
+        <a class="btn" href="https://drasticstatic.github.io/taylordwraps-nextjs-preview/" data-peel="THE REAL THING IS NEXT DOOR">Enter The Carport ↗</a>
       </div>
     </div>
     <div class="peelbox">
@@ -62,7 +64,7 @@
   </div>
 </header>
 
-<div class="ticker"><div class="track" id="tickTrack"></div><div class="t-meta">© 2026 TAYLOR'D WRAPS · DESIGN · PRINT · INSTALL · BRAND · HANDCRAFTED IN DRASTICSTATIC LABS · v1.7 SHOWCASE · ↑↓↑↓←→←→BA</div></div>
+<div class="ticker"><div class="track" id="tickTrack"></div><div class="t-meta">© 2026 TAYLOR'D WRAPS · DESIGN · PRINT · INSTALL · BRAND · HANDCRAFTED IN DRASTICSTATIC LABS · v2.0 · THE CAR SHOW · ↑↑↓↓←→←→BA</div></div>
 
 <section class="section" id="manifesto">
   <div class="mani">
@@ -111,7 +113,7 @@
       </div>
       <div class="spec">
         <h3>SATIN FLIP COUPE</h3>
-        <div class="row"><span>FILM</span><b>KPMF SATIN FLIP · PSYCHDELIC PPF</b></div>
+        <div class="row"><span>FILM</span><b>KPMF SATIN FLIP · PSYCHEDELIC PPF</b></div>
         <div class="row"><span>SCOPE</span><b>COLOR CHANGE · CERAMIC</b></div>
         <div class="row"><span>WRAP ORIGIN</span><b class="hash">SHA-256 <span data-hash="car"></span></b></div>
       </div>
@@ -161,7 +163,7 @@
   </div>
   <div class="viz rv">
     <div class="stage">
-      <img id="vizImg" src="assets/van_after.jpg" alt="Vehicle preview with selected wrap film">
+      <img id="vizImg" src="assets/van_before.jpg" alt="Vehicle preview with selected wrap film">
       <div class="frame"></div>
       <div class="drop">DROP IT — WE'LL WRAP IT</div>
       <div class="vtxt" id="vizText" spellcheck="false">YOUR TEXT HERE</div>
@@ -215,6 +217,7 @@
           <button class="opt" data-v="Food Truck"><span class="ic">🌮</span><span class="nm">Food Truck</span><span class="ds">Mobile hunger machines</span></button>
           <button class="opt" data-v="Boat / Marine"><span class="ic">🚤</span><span class="nm">Boat</span><span class="ds">Marine grade</span></button>
           <button class="opt" data-v="Trailer / Fleet"><span class="ic">🚛</span><span class="nm">Trailer / Fleet</span><span class="ds">Multi-unit pricing</span></button>
+          <button class="opt" data-v="Something Else"><span class="ic">🧰</span><span class="nm">Something Else</span><span class="ds">Mowers · RC · drums · you name it</span></button>
         </div>
       </div>
       <div class="q" data-q="2">
@@ -278,6 +281,32 @@
   </div>
 </section>
 
+<section class="section" id="arcade">
+  <span class="kicker">06 — The Arcade</span>
+  <h2>INSERT COIN. <span class="gradtxt">NO COIN NEEDED.</span></h2>
+  <p class="sub">Three cabinets built on the shop's own tools. Scores stay on this device. Nothing to buy, nothing to sign, no leaderboard but yours.</p>
+  <div class="arcade-grid">
+    <article class="cab" data-game="rush" aria-label="Squeegee Rush">
+      <header><b>🧽 SQUEEGEE RUSH</b><span class="mono">best <i data-best="rush">—</i></span></header>
+      <canvas aria-label="Squeegee Rush game" role="img"></canvas>
+      <div class="cab-hud"><span class="mono" data-hud>20 bubbles. 20 seconds. Drag to pop.</span><button class="btn solid" data-start>PLAY</button></div>
+    </article>
+    <article class="cab" data-game="panel" aria-label="Panel Perfect">
+      <header><b>🚐 PANEL PERFECT</b><span class="mono">best <i data-best="panel">—</i></span></header>
+      <canvas aria-label="Panel Perfect game" role="img"></canvas>
+      <div class="cab-hud"><span class="mono" data-hud>Lay the film left to right in one smooth pull. Too fast = bubbles.</span><button class="btn solid" data-start>PLAY</button></div>
+    </article>
+    <article class="cab" data-game="pink" aria-label="Spot the Pink">
+      <header><b>🩷 SPOT THE PINK</b><span class="mono">best <i data-best="pink">—</i></span></header>
+      <canvas aria-label="Spot the Pink game" role="img"></canvas>
+      <div class="cab-hud"><span class="mono" data-hud>There is exactly one pink dot. Find it before the shop dog does.</span><button class="btn solid" data-start>PLAY</button></div>
+    </article>
+  </div>
+  <p class="mono arcade-foot"><button class="btn" id="arcadeShare">COPY MY RUN</button> <span class="dim">Scores live in this browser only. Clear them in your settings any time.</span></p>
+</section>
+
+<div class="hazard"></div>
+
 <section class="section" id="lab">
   <div class="sect-head rv">
     <span class="sect-num">06</span><h2>THE <span class="gradtxt">LAB</span></h2>
@@ -292,7 +321,7 @@
         <div class="cert"><span class="disc"></span><div class="meta"><b>THE SHOP VAN</b><span class="hash">SHA-256 <span data-hash="van"></span></span></div></div>
         <div class="cert"><span class="disc"></span><div class="meta"><b>SATIN FLIP COUPE</b><span class="hash">SHA-256 <span data-hash="car"></span></span></div></div>
       </div>
-      <span class="chainnote">STATUS: HASHED OFFLINE · ANCHORING PENDING TAYLOR'S GO</span>
+      <span class="chainnote">STATUS: HASHED IN YOUR BROWSER · CHECKED AGAINST THE MANIFEST · ANCHORING PENDING TAYLOR'S GO</span>
     </div>
     <div class="labcard rv"><span class="fx"></span>
       <span class="exp">EXP.002 — CONNECTION</span>
@@ -360,9 +389,10 @@
       </div>
     </div>
     <div class="f-links">
-      <div class="col"><b>Explore</b><a href="#receipts">The Receipts</a><a href="#visualizer">Visualizer</a><a href="#quote">Start Yours</a><a href="proposal.html">Proposal Sheet</a></div>
+      <div class="col"><b>Explore</b><a href="#receipts">The Receipts</a><a href="#visualizer">Visualizer</a><a href="#arcade">The Arcade</a><a href="#quote">Start Yours</a><a href="proposal.html">Proposal Sheet</a><a href="time-machine.html">Time Machine</a></div>
       <div class="col"><b>Elsewhere</b><a href="https://www.instagram.com/taylordwraps/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/taylordwraps" target="_blank" rel="noopener">Facebook</a></div>
       <div class="col"><b>Shop</b><a href="https://taylordwraps.com" target="_blank" rel="noopener">taylordwraps.com ↗</a></div>
+      <div class="col"><b>Next Door</b><a href="https://drasticstatic.github.io/taylordwraps-nextjs-preview/">THE CARPORT ↗</a><a href="lattice.html">Lattice (experiment)</a><a href="roadmap.html">Roadmap (experiment)</a><a href="provenance.html">Provenance (experiment)</a></div>
       <div class="col"><b>The Dev</b><a href="https://drasticstatic.github.io/" target="_blank" rel="noopener">MEET THE DEV ↗</a><a href="https://github.com/drasticstatic/taylordwraps-public-preview" target="_blank" rel="noopener">SITE SOURCE ↗</a></div>
     </div>
   </div>
@@ -413,4 +443,7 @@
     <p class="w-honest" style="margin-top:14px">WHY WHITE? THE WRAP ENGINE READS PAINT BY COLOR — WHITE AND NEUTRAL SHELLS GIVE IT CLEAN EDGES, SO YOUR FILM LOOKS LAID, NOT SPLASHED.</p>
   </div>
 </div>
-<script src="app.js?v=170" defer></script>
+<script src="app.js?v=200" defer></script>
+<script src="arcade.js?v=200" defer></script>
+</body>
+</html>

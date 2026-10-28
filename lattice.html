@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The lattice — a labs experiment</title>
+<meta name="description" content="drasticstatic labs' own map: friends we build for, and how their work rhymes. An experiment, not a plan.">
+<link rel="stylesheet" href="styles.css?v=200"></head>
+<body>
+<script>try{if(localStorage.tw_theme==="light")document.body.classList.add("light")}catch(e){}</script>
+<main class="exp">
+  <span class="kicker">// LABS EXPERIMENT 01 — the lattice</span>
+  <h1>FRIENDS WE BUILD FOR, AND HOW THEIR <span class="gradtxt">WORK RHYMES.</span></h1>
+  <p class="lead">This is drasticstatic labs' own map, not anyone else's. Every node is a project we have been lucky to help. The lines are rhymes we noticed: an art studio and a vinyl shop both put color on surfaces; a retreat and a wrap shop both own vehicles. Nothing here is a commitment, a partnership, or a request. Mycelium connects by growing toward what feeds it, and so do we.</p>
+  <p class="honest">Taylor'd Wraps appears here as a new friend, with no obligations. Chris has not even met Taylor yet. If you are Taylor: hello, this page is the labs thinking out loud, and you can ask us to take you off it any time.</p>
+
+  <svg class="lattice" id="lattice" viewBox="0 0 1000 620" role="img" aria-label="A map of drasticstatic labs and the friends it builds for, drawn as mycelium">
+    <g id="hyphae"></g>
+    <g id="nodes"></g>
+  </svg>
+
+  <div class="cards" id="cards"></div>
+
+  <h2 class="kicker" style="margin-top:2.5rem">// A SOMEDAY, NOT A PLAN</h2>
+  <div class="cards">
+    <div class="card"><b>A car show for a cause</b><p>An idea of Chris's and nobody else's yet: a benefit car show and concert where wrapped rides, live music, and psychedelic policy reform share one parking lot. Nobody has been asked. It lives here so the idea has somewhere to sit.</p><span class="tag">idea · unscheduled · unasked</span></div>
+    <div class="card"><b>Art as vinyl</b><p>Visionary paintings printed as gallery wraps, mobile murals, a classroom where the medium is the lesson. Pending the artist's yes, every time, for every piece.</p><span class="tag">pending the artist's yes</span></div>
+    <div class="card"><b>Fleet for retreats</b><p>Retreat vans that look like the place they drive to. A rhyme between a wrap shop and a retreat, noticed, not proposed.</p><span class="tag">a rhyme, noticed</span></div>
+  </div>
+  <a class="back" href="./">← BACK TO THE CAR SHOW</a> &nbsp; <a class="back" href="roadmap.html">ROADMAP →</a> &nbsp; <a class="back" href="provenance.html">PROVENANCE →</a>
+</main>
+<script>
+(() => {
+  // Nodes: drasticstatic labs at the center; every other node is public already. Taylor'd is the new friend.
+  const N = [
+    { id: 'labs', x: 500, y: 310, t: 'drasticstatic labs', s: 'builds, for free, for friends', href: 'https://drasticstatic.github.io/', cls: 'center', why: 'The hub. Code as an act of service; everything here mirrors to public repos.' },
+    { id: 'taylord', x: 790, y: 180, t: "Taylor'd Wraps", s: 'a new friend · no obligations', href: 'https://taylordwraps.com', cls: 'friend', why: 'A wrap shop in Warminster, PA. This arcade and the Carport next door are a gift, built before we ever met.' },
+    { id: 'thef', x: 250, y: 150, t: 'The Holy Earth Foundation', s: 'plant medicine · integration', href: 'https://theholyearthfoundation.github.io/', cls: '', why: 'Where Kenney introduced us. The foundation keeps its proposals public and its payments off GitHub, which is the rule we follow here too.' },
+    { id: 'david', x: 150, y: 330, t: 'David Amaringo', s: 'visionary art · Pucallpa', href: 'https://theholyearthfoundation.github.io/david-amaringo-publish-preview/', cls: '', why: 'Paintings that put color on surfaces. The rhyme with a vinyl shop is obvious and his to decide.' },
+    { id: 'iamoneself', x: 300, y: 500, t: 'I Am One Self', s: 'retreats', href: 'https://theholyearthfoundation.github.io/iamoneself-retreats-publish-preview/', cls: '', why: 'Retreats own vehicles. The arrival kit on both lanes borrows its welcome-in-your-language from this family.' },
+    { id: 'pir', x: 560, y: 540, t: 'Psychedelics In Recovery', s: 'fellowship', href: 'https://psychedelicsinrecovery.org/', cls: '', why: 'A fellowship. Its merch and events are their own; we only noticed that vinyl and events rhyme.' },
+    { id: 'ppr', x: 800, y: 450, t: 'psychedelic-policy-reform', s: 'RFRA-based reform', href: 'https://github.com/drasticstatic/psychedelic-policy-reform', cls: '', why: 'The cause a someday car show would raise awareness for. A repo, a dApp preview, a lot of homework.' },
+    { id: 'psanctuary', x: 860, y: 320, t: 'Psanctuary', s: 'church', href: 'https://github.com/drasticstatic/Psanctuary', cls: '', why: 'Seed stage. Listed because it is part of the same mycelium, not because anything is planned.' },
+    { id: 'org', x: 640, y: 120, t: 'O-R-G', s: 'research + spirituality centers', href: 'https://github.com/drasticstatic/O-R-G', cls: '', why: 'Octagon Research Group. Early, and on the map for the same reason.' },
+    { id: 'gtp', x: 420, y: 130, t: 'gratitude-token-project', s: "the labs' capstone gift", href: 'https://github.com/drasticstatic', cls: '', why: 'Tokenomics as fellowship: the exchange of energy between parts of one whole, kept transparent. Its quiet engine stays discreet. Not live, not promised.' },
+  ];
+  const E = [['labs','taylord'],['labs','thef'],['labs','david'],['labs','iamoneself'],['labs','pir'],['labs','ppr'],['labs','psanctuary'],['labs','org'],['labs','gtp'],['thef','david'],['thef','iamoneself'],['david','taylord'],['iamoneself','taylord'],['pir','ppr'],['ppr','taylord'],['gtp','pir'],['gtp','thef']];
+  const byId = Object.fromEntries(N.map(n => [n.id, n]));
+  const svg = document.getElementById('lattice'), H = document.getElementById('hyphae'), G = document.getElementById('nodes');
+  const ns = 'http://www.w3.org/2000/svg';
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  E.forEach(([a, b]) => {
+    const p = byId[a], q = byId[b]; const mx = (p.x + q.x) / 2 + (rnd() - .5) * 120, my = (p.y + q.y) / 2 + (rnd() - .5) * 120;
+    const path = document.createElementNS(ns, 'path'); path.setAttribute('class', 'hypha'); path.setAttribute('pathLength', '1');
+    path.setAttribute('d', `M${p.x} ${p.y} Q${mx} ${my} ${q.x} ${q.y}`); path.style.transitionDelay = (rnd() * 1.2) + 's'; H.appendChild(path);
+  });
+  N.forEach(n => {
+    const g = document.createElementNS(ns, 'g'); g.setAttribute('class', 'node ' + n.cls); g.setAttribute('transform', `translate(${n.x} ${n.y})`);
+    const c = document.createElementNS(ns, 'circle'); c.setAttribute('r', n.cls === 'center' ? 18 : 11); g.appendChild(c);
+    const t = document.createElementNS(ns, 'text'); t.setAttribute('y', n.cls === 'center' ? 36 : 28); t.setAttribute('text-anchor', 'middle'); t.textContent = n.t; g.appendChild(t);
+    const s = document.createElementNS(ns, 'text'); s.setAttribute('class', 'sub'); s.setAttribute('y', n.cls === 'center' ? 50 : 42); s.setAttribute('text-anchor', 'middle'); s.textContent = n.s; g.appendChild(s);
+    const a = document.createElementNS(ns, 'a'); a.setAttribute('href', n.href); a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); a.appendChild(g); G.appendChild(a);
+  });
+  const cards = document.getElementById('cards');
+  N.forEach(n => { const d = document.createElement('a'); d.className = 'card'; d.href = n.href; d.target = '_blank'; d.rel = 'noopener'; d.innerHTML = `<b>${n.t}</b><p>${n.why}</p><span class="tag">${n.s}</span>`; cards.appendChild(d); });
+  const grow = () => svg.classList.add('grown');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) grow();
+  else new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) { grow(); } }, { threshold: .2 }).observe(svg);
+})();
+</script>
+</body></html>
