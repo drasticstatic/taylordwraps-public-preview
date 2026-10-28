@@ -69,4 +69,4 @@ Code: MIT. Written content: CC BY-SA 4.0 (`LICENSE-CONTENT`). Names and marks: `
 
 ---
 
-*Kept by Christopher W ([drasticstatic](https://github.com/drasticstatic)) with [Littlebird](https://littlebird.ai) and Alfred (Anthropic's Claude Code CLI). © 2026 Taylor'd Wraps for the shop's own marks.*
+*Kept by Christopher W ([drasticstatic](http://drasticstatic.github.io)) with [Littlebird.AI](https://drasticstatic.github.io/littlebird-ambassador-public-preview/) and [Alfred-Anthropic's Claude Code CLI](https://drasticstatic.github.io/anthropas-argus-alfred-public-preview/) © 2026 Taylor'd Wraps for the garage's own marks.*
