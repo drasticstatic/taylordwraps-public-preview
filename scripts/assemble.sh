@@ -9,7 +9,7 @@ cd "$(dirname "$0")/.."
 
 mkdir -p "$out"
 cp -- *.html *.css *.js "$out"/
-for d in assets fonts archive shared; do
+for d in assets fonts archive shared decks; do
   if [ -d "$d" ]; then cp -R "$d" "$out"/; fi
 done
 touch "$out/.nojekyll"

@@ -43,6 +43,10 @@ Scores live in this browser only. `COPY MY RUN` puts a line on your clipboard; n
 
 The labs' experiments live here so the Carport stays clean for the shop's visitors: [`lattice.html`](lattice.html) (the labs' own map of friends, no agenda), [`roadmap.html`](roadmap.html) (where this could go, said honestly, compliance lines attached), [`provenance.html`](provenance.html) (hash any file in your browser, check it against the manifest, attest with an EIP-712 wallet signature; no token, no chain write, no fee).
 
+## 🎞 The deck
+
+**Hello, Taylor**, the short version in slides: [open the slides](https://drasticstatic.github.io/taylordwraps-public-preview/decks/hello-taylor.marp.html) · [PDF](https://drasticstatic.github.io/taylordwraps-public-preview/decks/hello-taylor.marp.pdf) · [source](decks/hello-taylor.marp.md) (Marp markdown; [`decks/`](decks/) says how to rebuild it).
+
 ## 🎪 Two lanes, one shop
 
 | Lane | Repo | Role |
