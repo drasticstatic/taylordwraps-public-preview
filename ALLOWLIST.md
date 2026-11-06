@@ -18,7 +18,7 @@ truck, real photo, used with permission). Fonts: Anton, Archivo, JetBrains Mono 
 
 ## Never public
 
-- `AGENT-SYNC/`, `logs/`, `proposals/` (drafts, PDFs, anything about pricing or outreach)
+- The agent-notes folder, `logs/`, `proposals/` (drafts, PDFs, anything about pricing or outreach)
 - `ops-standard-operating-procedures/` (how the lab works for the shop; its PDFs go to Taylor through Kenney)
 - `PROJECT_BRIEF.md`, `PROTOTYPE.md`, `DEPLOY.md`, `README.md` of this repo (the lanes carry their own READMEs)
 - Client personal data: Taylor's personal social accounts, contact details beyond the shop's public
